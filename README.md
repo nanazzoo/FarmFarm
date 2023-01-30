@@ -28,7 +28,7 @@
 #### `Back-end`
 
   - Java 11
-  - Spring 3.9.18
+  - Spring 5.3.14
   - Maven
   - Oracle 21C
   - Apache Tomcat 9.0
