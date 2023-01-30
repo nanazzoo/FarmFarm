@@ -1,10 +1,14 @@
 
-
+<img width="20%" src="https://user-images.githubusercontent.com/110653581/211257489-34757022-4c71-443f-afe7-94d240788288.png" />
+<h2>팜팜</h2>
+<h3>내 손으로 키운 작물, 손쉽게 거래하세요.</h3>
+<br>
 
 
 
 # :pushpin: FarmFarm
 > **농산물 직거래 플랫폼 및 농사 용품 판매 쇼핑몰**
+> 
 > **[FarmFarm 바로가기](http://129.154.53.250:8080) (Test ID: user01 PW: pass01! | Admin ID: admin01 PW: admin01!)**
 
 </br>
