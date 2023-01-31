@@ -48,7 +48,7 @@
 
 ## 3. ERD 설계
 > [팜팜 ERD cloud](https://www.erdcloud.com/d/xpKBdcyyrs6Ef2k9F)
-<img src="/FarmFarm ERD.png" />
+<img src="/FarmFarm ERD-min.png" />
 
 
 ## 4. 핵심 기능
