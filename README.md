@@ -1,3 +1,4 @@
+![header](https://capsule-render.vercel.app/api?type=Waving&color=timeGradient&height=250&section=header&text=팜팜%20내 손으로 키운 작물, 손쉽게 거래하세요.&fontSize=60&animation=twinkling&fontColor=ffffff)
 
 <div align="center">
 <img width="20%" src="https://user-images.githubusercontent.com/110653581/211257489-34757022-4c71-443f-afe7-94d240788288.png" />
@@ -25,18 +26,23 @@
 
 ## 2. 사용 기술
 
-#### `Back-end`
+<div align="center">
+  
+### **Back-end**
+<img src="https://img.shields.io/badge/Java11-007396?style=for-the-badge&logo=java&logoColor=white"> 
+  <img src="https://img.shields.io/badge/Spring5.3.14-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
+  <img src="https://img.shields.io/badge/Oracle21C-F80000?style=for-the-badge&logo=oracle&logoColor=white">
+  <br>
+  <img src="https://img.shields.io/badge/Apache Tomcat9.0-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=white">
+    <img src="https://img.shields.io/badge/Apache Maven-C71A36?style=for-the-badge&logo=ApacheMaven&logoColor=white">
+    <img src="https://img.shields.io/badge/Spring Sequrity-6DB33F?style=for-the-badge&logo=SpringSecurity&logoColor=white">
 
-  - Java 11
-  - Spring 5.3.14
-  - Maven
-  - Oracle 21C
-  - Apache Tomcat 9.0
-  - Spring Security
-  - Mybatis
-#### `Front-end`
-  - HTML/CSS
-  - Javascript
+### **Front-end**
+  <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> 
+  <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> 
+  <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> 
+
+</div>
 
 </br>
 
