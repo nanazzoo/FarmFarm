@@ -47,7 +47,7 @@
 </br>
 
 ## 3. ERD 설계
-> [팜팜 ERD cloud](https://www.erdcloud.com/d/xpKBdcyyrs6Ef2k9F)
+> [팜팜 ERD cloud ](https://www.erdcloud.com/d/xpKBdcyyrs6Ef2k9F)
 <img src="/FarmFarm ERD-min.png" />
 
 
