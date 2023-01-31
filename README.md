@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=Waving&color=timeGradient&height=250&section=header&text=팜팜%20내 손으로 키운 작물, 손쉽게 거래하세요.&fontSize=60&animation=twinkling&fontColor=ffffff)
+![header](https://capsule-render.vercel.app/api?type=Waving&color=timeGradient&height=250&section=header&text=팜팜%20내손으로키운작물,손쉽게거래하세요.&fontSize=60&animation=twinkling&fontColor=ffffff)
 
 <div align="center">
 <img width="20%" src="https://user-images.githubusercontent.com/110653581/211257489-34757022-4c71-443f-afe7-94d240788288.png" />
