@@ -46,15 +46,16 @@
 
 </div>
 
-</br>
+</br></br>
 
 ## 3. ERD 설계
 > [팜팜 ERD cloud ](https://www.erdcloud.com/d/xpKBdcyyrs6Ef2k9F)
 <img src="/FarmFarm ERD-min.png" />
 
+</br></br>
 
 ## 4. 핵심 기능
-## 4. 핵심 기능
+
 
 이 서비스의 핵심 기능은 상품 결제 취소 기능입니다. 아임 포트 API를 이용하여 구현하였습니다.
 
@@ -245,7 +246,7 @@
 
 
 
-</br>
+</br></br>
 
 ## 5. 핵심 트러블 슈팅
 
