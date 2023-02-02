@@ -54,67 +54,196 @@
 
 
 ## 4. 핵심 기능
-이 서비스의 핵심 기능은 상품 결제 및 결제 취소 기능입니다.
-아임 포트 API에 
+## 4. 핵심 기능
+
+이 서비스의 핵심 기능은 상품 결제 취소 기능입니다. 아임 포트 API를 이용하여 구현하였습니다.
+
+
 
 <details>
 <summary><b>핵심 기능 설명 펼치기</b></summary>
 <div markdown="1">
 
+
 ### 4.1. 전체 흐름
-![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow1.png)
+
+<img src="/spring.png">
 
 ### 4.2. 사용자 요청
-![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_vue.png)
 
-- **URL 정규식 체크** :pushpin: [코드 확인](https://github.com/Integerous/goQuality/blob/b587bbff4dce02e3bec4f4787151a9b6fa326319/frontend/src/components/PostInput.vue#L67)
-  - Vue.js로 렌더링된 화면단에서, 사용자가 등록을 시도한 URL의 모양새를 정규식으로 확인합니다.
-  - URL의 모양새가 아닌 경우, 에러 메세지를 띄웁니다.
+- 사용자는 주문 내역에서 아직 배송 되지 않은 상품에 대해서 결제 취소를 요청할 수 있습니다.
+- 사용자가 결제 취소 버튼을 클릭하면 결제 취소 요청이 컨트롤러로 전송됩니다.
 
-- **Axios 비동기 요청** :pushpin: [코드 확인]()
-  - URL의 모양새인 경우, 컨텐츠를 등록하는 POST 요청을 비동기로 날립니다.
+
 
 ### 4.3. Controller
 
-![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_controller.png)
+~~~java
+	/** 주문 취소
+	 * @param orderNo
+	 * @return result
+	 * @throws IOException
+	 */
+	@GetMapping("/order/cancel")
+	@ResponseBody
+	public int orderCancel(int orderNo) throws IOException {
+				
+//		IMP_UID가 담긴 주문 정보 조회
+		Order order = service.selectImpUid(orderNo);
+		
+        // 아임 포트에서 token 얻어오기
+		String token = service.getToken();
+		System.out.println(token);
+		
+//		imp_uid 이용해서 환불 요청하기
+		int result = service.paymentCancel(token, order);
+		
+        // 환불 성공 시 DB에 취소 내역 저장
+		if(result > 0) {
+			result = service.orderCancel(orderNo);
+		}
+		return result;
+	}
+	
+~~~
 
-- **요청 처리** :pushpin: [코드 확인](https://github.com/Integerous/goQuality/blob/b2c5e60761b6308f14eebe98ccdb1949de6c4b99/src/main/java/goQuality/integerous/controller/PostRestController.java#L55)
-  - Controller에서는 요청을 화면단에서 넘어온 요청을 받고, Service 계층에 로직 처리를 위임합니다.
+- **요청 처리** 
 
-- **결과 응답** :pushpin: [코드 확인]()
-  - Service 계층에서 넘어온 로직 처리 결과(메세지)를 화면단에 응답해줍니다.
+  - Controller에서는 요청을 화면 단에서 넘어온 요청을 받고, Service 계층에 로직 처리를 위임합니다.
+
+- **결과 응답**
+
+  - 취소 결과가 Insert 되면 1, 실패 시 0을 반환합니다.
+
+  
 
 ### 4.4. Service
 
-![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_service1.png)
+~~~java
+	/* 결제 토큰 얻어오기 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public String getToken() throws IOException {
 
-- **Http 프로토콜 추가 및 trim()** :pushpin: [코드 확인]()
-  - 사용자가 URL 입력 시 Http 프로토콜을 생략하거나 공백을 넣은 경우,  
-  올바른 URL이 될 수 있도록 Http 프로토콜을 추가해주고, 공백을 제거해줍니다.
+		// 아임포트에 imp_key와 imp_secret을 담은 요청 전송
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		JSONObject body = new JSONObject();
+		body.put("imp_key", "아임포트에서 제공하는 imp_key");
+		body.put("imp_secret", "아임포트에서 제공하는 RESTAPI 번호");
+		
+		String token = null;
 
-- **URL 접속 확인** :pushpin: [코드 확인]()
-  - 화면단에서 모양새만 확인한 URL이 실제 리소스로 연결되는지 HttpUrlConnection으로 테스트합니다.
-  - 이 때, 빠른 응답을 위해 Request Method를 GET이 아닌 HEAD를 사용했습니다.
-  - (HEAD 메소드는 GET 메소드의 응답 결과의 Body는 가져오지 않고, Header만 확인하기 때문에 GET 메소드에 비해 응답속도가 빠릅니다.)
+		try {
+			// 요청 성공 시 ImpToken 객체에 res 데이터를 담음
+			HttpEntity<JSONObject> entity = new HttpEntity<>(body , headers);
+			ImpToken impToken = restTemplate.postForObject("https://api.iamport.kr/users/getToken", entity, ImpToken.class);
+			
+			// ImpToken 객체에서 token 정보만 가져오기
+			token = impToken.getResponse().get("access_token").toString();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("getTokenError");
+		} finally {
+			headers.clear();
+			body.clear();
+		}
+		
+		return token;
+	}
+	
+~~~
 
-  ![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_service2.png)
 
-- **Jsoup 이미지, 제목 파싱** :pushpin: [코드 확인]()
-  - URL 접속 확인결과 유효하면 Jsoup을 사용해서 입력된 URL의 이미지와 제목을 파싱합니다.
-  - 이미지는 Open Graphic Tag를 우선적으로 파싱하고, 없을 경우 첫 번째 이미지와 제목을 파싱합니다.
-  - 컨텐츠에 이미지가 없을 경우, 미리 설정해둔 기본 이미지를 사용하고, 제목이 없을 경우 생략합니다.
+
+- 아임 포트에서 토큰 얻어오기
+
+  - 아임 포트 측에 요청 정보를 전송하여 결제 취소를 위한 토큰을 얻어옵니다.
+
+  
+
+~~~java
+	/** 아임포트에 환불 요청
+	 * @throws IOException 
+	 *
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public int paymentCancel(String token, Order order) throws IOException {
+		
+		// 주문 취소 정보를 담은 요청 전송
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.add("Authorization", token);
+		JSONObject body = new JSONObject();
+		body.put("reason", "주문 취소");
+		body.put("imp_uid", order.getImpUid());
+		body.put("amount", order.getOrderPrice());
+		body.put("checksum", order.getOrderPrice());
+		
+		try {
+			HttpEntity<JSONObject> entity = new HttpEntity<>(body , headers);
+			ImpToken impToken = restTemplate.postForObject("https://api.iamport.kr/payments/cancel", entity, ImpToken.class);
+			
+			System.out.println(impToken.toString());
+			return 1;
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("getBuyerInfo Error");
+			
+			throw new RuntimeException("환불 실패");
+		}
+		
+		
+	}
+~~~
+
+
+
+- 아임 포트에 결제 취소 요청
+  - 아임 포트에서 요구하는 결제 취소 정보가 담긴 요청을 전송합니다.
+  - 요청 성공 시 결제 취소 정보가 담긴 데이터를 미리 만들어둔 객체에 담아주고 console에 출력해주었습니다.
+  - 결제 취소가 성공하면 1을 반환하고 Repository 계층에서 DB에 취소 정보를 저장합니다.
 
 
 ### 4.5. Repository
 
-![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_repo.png)
+~~~java
+	/** 주문 취소
+	 * @param orderNo
+	 * @return
+	 */
+	public int orderCancel(int orderNo) {
+		// 주문 내역에 취소 정보 업데이트
+		int result = sqlSession.update("orderMapper.orderCancel", orderNo);
+		
+		if(result > 0) {
+			// 취소할 주문의 상품 목록 조회
+			List<Product> productList = sqlSession.selectList("orderMapper.cancelProductList", orderNo);
+			
+			// 취소한 모든 상품에 대한 취소 내역 추가
+			for(Product p : productList) {
+				sqlSession.insert("orderMapper.cancelHistory", p);
+			}
+		}
+		return result;
+	}
+~~~
 
-- **컨텐츠 저장** :pushpin: [코드 확인]()
-  - URL 유효성 체크와 이미지, 제목 파싱이 끝난 컨텐츠는 DB에 저장합니다.
-  - 저장된 컨텐츠는 다시 Repository - Service - Controller를 거쳐 화면단에 송출됩니다.
+
+
+- **취소 내역 저장** :pushpin: 
+  - 취소가 완료된 주문에 대하여 주문 상태를 '주문 취소'로 수정합니다.
+- **주문 상품 목록 조회**
+  - 취소한 주문의 상품 내역을 모두 조회해옵니다.
+- **취소 내역 추가**
+  - 취소한 주문의 모든 상품에 대해 주문 취소 내역을 추가합니다.
+  - 트리거를 이용하여 자동으로 취소된 상품의 재고가 복귀됩니다.
 
 </div>
 </details>
+
+
 
 </br>
 
