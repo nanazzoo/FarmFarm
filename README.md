@@ -12,7 +12,7 @@
 # :pushpin: FarmFarm
 > **농산물 직거래 플랫폼 및 농사 용품 판매 쇼핑몰**
 > 
-> **[FarmFarm 바로가기](http://129.154.53.250:8080) (Test ID: user01 PW: pass01! | Admin ID: admin PW: admin01!)**
+> **[FarmFarm 바로가기](http://129.154.53.250:8080) (Test ID: user02 PW: pass01! | Admin ID: admin PW: admin01!)**
 
 </br>
 
