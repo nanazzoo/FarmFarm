@@ -74,6 +74,7 @@
 
 이 서비스의 핵심 기능은 상품 결제 취소 기능입니다. 아임 포트 API를 이용하여 구현하였습니다.
 
+![팜팜_스토리보드-포함_-_-최종-028](https://user-images.githubusercontent.com/101784680/221081115-cdb0b286-e471-4832-8be3-5c57b6def7d8.png)
 
 
 <details>
