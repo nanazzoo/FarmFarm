@@ -76,6 +76,7 @@
 
 ![팜팜_스토리보드-포함_-_-최종-028](https://user-images.githubusercontent.com/101784680/221081115-cdb0b286-e471-4832-8be3-5c57b6def7d8.png)
 
+</br></br>
 
 <details>
 <summary><b>핵심 기능 설명 펼치기</b></summary>
