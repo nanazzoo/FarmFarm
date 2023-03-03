@@ -336,7 +336,7 @@
 </br></br>
 
 ## 6. 그 외 트러블 슈팅
-[요청 방식 및 요청 주소의 RestfulAPI](https://github.com/nanazzoo/FarmFarm/issues/1)
+[요청 방식 및 요청 주소의 RestfulAPI화](https://github.com/nanazzoo/FarmFarm/issues/1)
 
 </br>
 
