@@ -14,7 +14,7 @@
 > 
 > **[FarmFarm 바로가기](http://129.154.53.250:8080) (Test ID: user02 PW: pass01! | Admin ID: admin PW: admin01!)**
 
-</br>
+</br></br></br>
 
 ## 1. 제작 기간 & 참여 인원 & 역할
 - 제작 기간: 2022년 12월 12일부터 2023년 1월 11일까지
@@ -38,7 +38,7 @@
 -  프로젝트 구조
 <img src="/project.png" />
 	
-
+</br></br>
 </br>
 
 ## 2. 사용 기술
@@ -61,13 +61,13 @@
 
 </div>
 
-</br></br>
+</br></br></br></br>
 
 ## 3. ERD 설계
 > [팜팜 ERD cloud ](https://www.erdcloud.com/d/xpKBdcyyrs6Ef2k9F)
 <img src="/FarmFarm ERD-min.png" />
 
-</br></br>
+</br></br></br></br>
 
 ## 4. 핵심 기능
 
@@ -265,7 +265,7 @@
 
 
 
-</br></br>
+</br></br></br></br></br>
 
 ## 5. 핵심 트러블 슈팅
 
@@ -333,10 +333,10 @@
 
 
 
-</br></br>
+</br></br></br></br>
 
 ## 6. 그 외 트러블 슈팅
 [요청 방식 및 요청 주소의 RestfulAPI화](https://github.com/nanazzoo/FarmFarm/issues/1)
 
-</br>
+</br></br></br>
 
