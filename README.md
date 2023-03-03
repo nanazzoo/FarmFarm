@@ -78,7 +78,7 @@
 
 </br></br>
 
-:point_down:
+## :point_down::point_down::point_down:
 
 <details>
 <summary><b>핵심 기능 설명 펼치기</b></summary>
