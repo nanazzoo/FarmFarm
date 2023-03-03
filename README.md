@@ -38,7 +38,7 @@
 -  프로젝트 구조
 <img src="/project.png" />
 	
-</br></br>
+</br></br></br></br>
 </br>
 
 ## 2. 사용 기술
@@ -61,13 +61,13 @@
 
 </div>
 
-</br></br></br></br>
+</br></br></br></br></br>
 
 ## 3. ERD 설계
 > [팜팜 ERD cloud ](https://www.erdcloud.com/d/xpKBdcyyrs6Ef2k9F)
 <img src="/FarmFarm ERD-min.png" />
 
-</br></br></br></br>
+</br></br></br></br></br>
 
 ## 4. 핵심 기능
 
@@ -265,7 +265,7 @@
 
 
 
-</br></br></br></br></br>
+</br></br></br></br></br></br></br>
 
 ## 5. 핵심 트러블 슈팅
 
@@ -333,7 +333,7 @@
 
 
 
-</br></br></br></br>
+</br></br></br></br></br></br>
 
 ## 6. 그 외 트러블 슈팅
 [요청 방식 및 요청 주소의 RestfulAPI화](https://github.com/nanazzoo/FarmFarm/issues/1)
