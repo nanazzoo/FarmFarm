@@ -15,6 +15,9 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    /* 가로 스크롤바 제거 */
+    overflow-x:hidden;
 }
 
 main{
@@ -129,7 +132,7 @@ main{
 }
 
 .member-select-table td{
-    padding-bottom: 10px;
+    /* padding-bottom: 10px; */
     height: 31px;
 }
 
@@ -518,24 +521,36 @@ main{
 
 
 
-/* //optimize 계정 상태 */
+/* *계정 상태 */
 .member-history{
     width: 900px;
-    height: auto;
+    /* height: auto; */
+    height: 500px;
     border-radius: 10px;
     background-color: white;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    overflow: auto;
+    /* overflow: auto; */
+    overflow: scroll;
+    margin-top: 30px;
+}
+
+.member-history::-webkit-scrollbar{
+    width: 10px;
+    border-radius: 10px;
+}
+
+.member-history::-webkit-scrollbar-thumb{
+    background-color: #eef4ed;
+    border-radius: 10px;
 }
 
 
+
 .member-history-table{
-    width: 600px;
-    height: 120px;
-    padding: 20px 0;
-    margin-top: 30px;
+    width: 615px;
+    height: auto;
     border-collapse: collapse;
 }
 
