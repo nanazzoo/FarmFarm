@@ -9,11 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -31,11 +28,6 @@ public class myPageRestController {
 	@Autowired
 	private MyPageService service;
 	
-	/** 주문 내역 조회
-	 * @param loginMember
-	 * @param cp
-	 * @return
-	 */
 	@GetMapping("/order/list")
 	public String selectOrderList(
 			@SessionAttribute("loginMember")Member loginMember,
@@ -50,11 +42,6 @@ public class myPageRestController {
 	}
 	
 	
-	/** 작성 후기 목록 조회
-	 * @param loginMember
-	 * @param cp
-	 * @return
-	 */
 	@GetMapping("/review/list")
 	public String selectReviewList(
 			@SessionAttribute("loginMember")Member loginMember,
@@ -69,12 +56,6 @@ public class myPageRestController {
 	}
 	
 	
-	/** 작성 게시글 목록 조회
-	 * @param loginMember
-	 * @param cp
-	 * @param sortFl
-	 * @return
-	 */
 	@GetMapping("/board/list")
 	public String selectBoardList(
 			@SessionAttribute("loginMember")Member loginMember,
@@ -94,11 +75,6 @@ public class myPageRestController {
 		return new Gson().toJson(map);
 	}
 	
-	/** 작성 댓글 목록 조회
-	 * @param loginMember
-	 * @param cp
-	 * @return
-	 */
 	@GetMapping("/comment/list")
 	public String selectCommentList(
 			@SessionAttribute("loginMember")Member loginMember,
@@ -114,11 +90,6 @@ public class myPageRestController {
 		return new Gson().toJson(map);
 	}
 	
-	/** 찜 목록 조회
-	 * @param loginMember
-	 * @param cp
-	 * @return
-	 */
 	@GetMapping("/wish/list")
 	public String selectWishList(
 			@SessionAttribute("loginMember")Member loginMember,
@@ -135,14 +106,7 @@ public class myPageRestController {
 	}
 	
 	
-	/** 프로필 배경 이미지 변경
-	 * @param mypageImg
-	 * @param loginMember
-	 * @param req
-	 * @return
-	 * @throws Exception
-	 */
-	@PostMapping("/myPage/bgImg")
+	@PostMapping("/myPage/update/bgImg")
 	public int updateBgImg(@RequestParam(value="mypageImg") MultipartFile mypageImg, 
 			@SessionAttribute("loginMember") Member loginMember,
 			HttpServletRequest req) throws Exception {
@@ -156,11 +120,7 @@ public class myPageRestController {
 		return service.updateBgImg(webPath, filePath, mypageImg, loginMember);
 	}
 	
-	/** 기본 배경이미지로 변경
-	 * @param loginMember
-	 * @return
-	 */
-	@PutMapping("/myPage/bgImg")
+	@GetMapping("/myPage/default/bgImg")
 	public int defaultBgImg(@SessionAttribute("loginMember") Member loginMember) {
 		
 		loginMember.setMypageImg("/resources/images/default/bgImg.png");
@@ -169,26 +129,13 @@ public class myPageRestController {
 	}
 
 	
-	/** 구매 확정
-	 * @param orderNo
-	 * @return
-	 */
-	@GetMapping("/order/{orderNo}/confirm")
-	public int orderConfirm(@PathVariable("orderNo") int orderNo) {
+	@GetMapping("/order/confirm")
+	public int orderConfirm(int orderNo) {
 		
 		return service.orderConfirm(orderNo);
 	}
 	
-	/** 후기 등록
-	 * @param review
-	 * @param reviewContent
-	 * @param loginMember
-	 * @param req
-	 * @param imageList
-	 * @return
-	 * @throws IOException
-	 */
-	@PostMapping("/review")
+	@PostMapping("/review/write")
 	public int writeReview(Review review, String reviewContent,
 			@SessionAttribute("loginMember") Member loginMember,
 			HttpServletRequest req,
@@ -209,14 +156,9 @@ public class myPageRestController {
 	}
 	
 	
-	/** 찜 목록 삭제
-	 * @param loginMember
-	 * @param productNo
-	 * @return
-	 */
-	@DeleteMapping("/wish/{productNo}")
+	@GetMapping("/wish/delete")
 	public int deleteWish(@SessionAttribute("loginMember") Member loginMember,
-			@PathVariable("productNo") int productNo) {
+			int productNo) {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("productNo", productNo);

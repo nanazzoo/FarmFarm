@@ -139,10 +139,9 @@
 }
 
 .accum-modal-table{
-    width: 725px;
+    width: 700px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     border-collapse: collapse;
     border: none;
 }
@@ -154,8 +153,6 @@
 }
 
 #tbodyAccum{
-    width: 715px;
-    height: 560px;
     display: flex;
 }
 

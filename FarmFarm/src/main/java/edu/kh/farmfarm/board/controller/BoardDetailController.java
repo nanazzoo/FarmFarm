@@ -17,7 +17,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -101,7 +100,7 @@ public class BoardDetailController {
 				
 			}
 			
-			if(result>0) { // 조회수 증가에 성공시 Board에도 넣기
+			if(result>0) { // 조회수 증가에 성공했으니 Board에도 넣어줄까~
 				board.setBoardView(board.getBoardView()+1);
 				
 				// 하루에 한번만 조회수가 증가되도록 시간을 설정해봅시다
@@ -121,10 +120,10 @@ public class BoardDetailController {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				Date temp = new Date( cal.getTimeInMillis() );
 				
-				Date now2 = sdf.parse(sdf.format(temp)); // 하루 지난 날짜
-				// 날짜 형식을 String을 Date로 변환
+				Date now2 = sdf.parse(sdf.format(temp)); // 하루 지난 날짜의 시간이죠
+				// 날짜 형식을 String을 Date로 변환한답니다
 				
-				// 날짜 끼리는 빼기가 안됨.
+				// 날짜 끼리는 빼기가 안된데요
 				long diff = now2.getTime() - now.getTime();
 				
 				c.setMaxAge((int)(diff/1000));
@@ -139,7 +138,7 @@ public class BoardDetailController {
 	}
 	
 	
-	// 게시글 좋아요
+	// 게시글 좋아요++
 	@GetMapping("/boardLikeInsert")
 	@ResponseBody
 	public int boardLikeInsert(
@@ -148,7 +147,7 @@ public class BoardDetailController {
 	}
 	
 	
-	// 게시글 좋아요 취소
+	// 게시글 취소ㅜ
 	@GetMapping("/boardLikeDelete")
 	@ResponseBody
 	public int boardLikeDelete(
@@ -157,89 +156,51 @@ public class BoardDetailController {
 	}
 
 	
-	// 게시글 삭제 - 수정 전 코드
-//	@GetMapping("/board/{boardTypeNo}/{boardNo}/delete")
-//	public String boardDelete(
-//			@PathVariable("boardTypeNo") int boardTypeNo,
-//			@PathVariable("boardNo") int boardNo,
-//			RedirectAttributes ra,
-//			@RequestHeader("referer") String referer) {
-//		
-//		int result = serivce.boardDelete(boardNo);
-//		
-//		String message = null;
-//		String path = null;
-//		
-//		// 삭제 성공!
-//		if(result>0) {
-//			message = "게시글을 삭제했습니다.";
-//			path = "/board/"+boardTypeNo;
-//			
-//		}else {
-//			message = "삭제 실패...";
-//			path = referer;
-//		}
-//		
-//		ra.addFlashAttribute("message", message);
-//		
-//		return "redirect:"+path;
-//	}
-	
-	// 게시글 삭제 - 수정 후 코드
-	@DeleteMapping("/board/{boardTypeNo}/{boardNo}")
-	@ResponseBody
-	public int boardDelete(
-			@PathVariable("boardNo") int boardNo) {
+	// 게시글 삭제하기...
+	@GetMapping("/board/{boardTypeNo}/{boardNo}/delete")
+	public String boardDelete(
+			@PathVariable("boardTypeNo") int boardTypeNo,
+			@PathVariable("boardNo") int boardNo,
+			RedirectAttributes ra,
+			@RequestHeader("referer") String referer) {
 		
 		int result = serivce.boardDelete(boardNo);
 		
-		return result;
+		String message = null;
+		String path = null;
+		
+		// 삭제 성공!
+		if(result>0) {
+			message = "게시글을 삭제했습니다.";
+			path = "/board/"+boardTypeNo;
+			
+		}else {
+			message = "삭제 실패...";
+			path = referer;
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:"+path;
 	}
 		
 	
 	
-	// 게시글 수정하기 페이지 이동 - 수정 전
-//	@GetMapping("/board/{boardTypeNo}/{boardNo}/update")
-//	public String boardUpdatePage(
-//			@PathVariable("boardTypeNo") int boardTypeNo,
-//			@PathVariable("boardNo") int boardNo,
-//			Model model) {
-//		
-//		Board board = serivce.boardDetail(boardNo);
-//		
-//		// 개행문자 처리
-//		board.setBoardContent(Util.newLineClear(board.getBoardContent()));
-//		
-//		model.addAttribute("board", board);
-//		
-//		return "board/boardUpdate";
-//	}
-	
-	// 게시글 수정하기 페이지 이동 - 수정 후
+	// 게시글 수정하기 페이지 이동
 	@GetMapping("/board/{boardTypeNo}/{boardNo}/update")
 	public String boardUpdatePage(
 			@PathVariable("boardTypeNo") int boardTypeNo,
 			@PathVariable("boardNo") int boardNo,
-			@SessionAttribute(value="loginMember", required = false) Member loginMember,
 			Model model) {
 		
 		Board board = serivce.boardDetail(boardNo);
-		String path = null;
 		
-		int loginNo = loginMember.getMemberNo();
-		int boMemNo = board.getMemberNo();
+		// 개행문자 처리
+		board.setBoardContent(Util.newLineClear(board.getBoardContent()));
 		
-		if(loginNo == boMemNo) {
-			// 개행문자 처리
-			board.setBoardContent(Util.newLineClear(board.getBoardContent()));
-			
-			model.addAttribute("board", board);
-			path = "board/boardUpdate";
-		}else {
-			path = "common/error";
-		}
+		model.addAttribute("board", board);
 		
-		return path;
+		return "board/boardUpdate";
 	}
 	
 	

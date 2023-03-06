@@ -29,9 +29,9 @@ paymentCheckbox.addEventListener('change', ()=>{
 
 
 
-// 결제 요청하기
 function requestPay() {
 
+      
   // IMP.request_pay(param, callback) 결제창 호출
   var IMP = window.IMP;
   IMP.init('imp24224608');
@@ -47,13 +47,12 @@ function requestPay() {
       buyer_tel: memberTel,
       buyer_addr: memberAddress,
       buyer_postcode: "01181",
-  }, function (rsp) { //callback
+  }, function (rsp) { // callback
       if (rsp.success) {
 
         // 알림을 전송합니다
         ringOrderNotify();
 
-        // 결제 완료 시 결제 완료 메세지 출력
         msg = '결제가 완료되었습니다.';
         msg += '\n결제 금액 : ' + rsp.paid_amount;
         // msg += '\n결제 번호 : ' + rsp.imp_uid;
@@ -87,7 +86,6 @@ const confirmBuy = (impUid) => {
         document.getElementById("orderForm").submit();
       } else {
         alert("결제 실패");
-        
       }
     }
   })

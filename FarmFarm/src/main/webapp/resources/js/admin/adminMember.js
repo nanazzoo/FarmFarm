@@ -14,76 +14,74 @@ var keyword;
 var memberSelectTable = document.getElementById("memberSelectTable");
 
 
-// optimize 
-/** 전체 회원 정보 조회 함수 */
+// optimize : 전체 회원 정보 조회 함수
+// cp를 받아 게시글 목록 조회
 const selectMemberList = (cp) => {
-    axios.get("/admin/member/list", {
-        params: { "cp": cp, "authFilter": authFilter, "statFilter": statFilter, "keyword": keyword}
-    })
-    .then((response) => { // 성공
-        const map = response.data;
-        printMemberList(map.memberList, map.pagination);
-    }).catch(() => {
-        console.log("회원 정보 조회 실패");
+    $.ajax({
+        url: "/admin/selectMemberList",
+        data: { "cp": cp, "authFilter": authFilter, "statFilter": statFilter, "keyword": keyword },
+        dataType: "JSON",
+        type: "GET",
+        success: (map) => {
+
+            //fixme: 검색 결과가 없습니다.
+            // if(map.memberListCount == 0){
+            //     searchNoResult();
+            // } else {
+            // }
+
+            printMemberList(map.memberList, map.pagination);
+
+
+        },
+        error: () => {
+            console.log("cp 받아 회원 정보 조회 실패");
+        }
     });
-
-    // $.ajax({
-    //     url: "/admin/member/list",
-    //     data: { "cp": cp, "authFilter": authFilter, "statFilter": statFilter, "keyword": keyword },
-    //     dataType: "JSON",
-    //     type: "GET",
-    //     success: (map) => {
-
-    //         printMemberList(map.memberList, map.pagination);
-
-    //     },
-    //     error: () => {
-    //         console.log("cp 받아 회원 정보 조회 실패");
-    //     }
-    // });
 }
 
 
-//optimize
-/** 상세 회원 정보 조회 함수 
- * @param hiddenNo
-*/
+//optimize: 상세 회원 정보 조회 함수
 const selectMemberDetail = (hiddenNo) => {
-
-    axios.get("/admin/member/"+hiddenNo, {
-        params: { "hiddenNo": hiddenNo}
+    $.ajax({
+        url: "/admin/selectMemberDetail",
+        data: { "hiddenNo": hiddenNo },
+        dataType: "JSON",
+        type: "GET",
+        success: (map) => {
+            printMemberDetail(map.memberDetailInfo, map.memberHistoryList);
+        },
+        error: () => {
+            console.log("회원 상세 정보 조회 실패");
+        }
     })
-    .then((response) => { // 성공
-        const map = response.data;
-        printMemberDetail(map.memberDetailInfo, map.memberHistoryList);
-    }).catch(() => {
-        console.log("회원 상세 정보 조회 실패");
-    });
- 
-
-    // $.ajax({
-    //     url: "/admin/member/" + hiddenNo,
-    //     data: { "hiddenNo": hiddenNo },
-    //     dataType: "JSON",
-    //     type: "GET",
-    //     success: (map) => {
-    //         printMemberDetail(map.memberDetailInfo, map.memberHistoryList);
-    //     },
-    //     error: () => {
-    //         console.log("회원 상세 정보 조회 실패");
-    //     }
-    // })
 }
 
 
 
 
 
-// optimize
-/** 조회해온 회원 목록을 화면에 출력하는 함수 
- * @param memberList
- * @param pagination
-*/
+
+// // cp를 받아 게시글 목록 조회
+// const selectMemberListFiltering = () => {
+//     $.ajax({
+//         url: "/admin/selectMemberList",
+//         data: {"cp":cp, "authFilter": authFilter, "statFilter":statFilter},
+//         dataType: "JSON",
+//         type: "GET",
+//         success: (map) => {
+//             printMemberList(map.memberList, map.pagination);
+//         }, 
+//             error: () => {
+//             console.log("필터링하여 회원 정보 조회 실패");
+//         }
+//     });
+// }
+
+
+
+
+// optimize 조회해온 회원 목록을 화면에 출력하는 함수
 const printMemberList = (memberList, pagination) => {
 
     console.log("회원 전체 조회");
@@ -216,7 +214,7 @@ const printMemberList = (memberList, pagination) => {
 
             if (member.reportType != null) {
                 if (member.reportPenalty == null) {
-                    td8.innerText = "활동중";  //신고접수
+                    td8.innerText = "신고접수";
                 }
 
                 if (member.reportPenalty == 'N' || member.reportPenalty == 'A') {
@@ -259,11 +257,9 @@ const printMemberList = (memberList, pagination) => {
 
 
 // todo: 상세 조회
-/** 회원 상세 정보 조회 함수
- * @param memberDetailInfo
- * @param memberHistoryList
- */
 const printMemberDetail = (memberDetailInfo, memberHistoryList) => {
+
+    console.log("상세조회 만드는 함수..");
 
     const middleBoard = document.getElementById("middleBoard");
     const detailTable = document.getElementById("detailTable");
@@ -345,11 +341,7 @@ const printMemberDetail = (memberDetailInfo, memberHistoryList) => {
     memberBirth.innerText = "생년월일";
 
     const tdBirth = document.createElement("td");
-    if(memberDetailInfo.memberBirth != null) {
-        tdBirth.innerText = memberDetailInfo.memberBirth;
-    } else {
-        tdBirth.innerText = "";
-    }
+    tdBirth.innerText = memberDetailInfo.memberBirth;
 
 
     // 3)
@@ -413,16 +405,16 @@ const printMemberDetail = (memberDetailInfo, memberHistoryList) => {
             tdStatus.innerText = "활동중";
         }
 
-        if (memberDetailInfo.reportType == 'M') {
+        if (memberDetailInfo.reportType != null) {
             if (memberDetailInfo.reportPenalty == null) {
-                tdStatus.innerText = "활동중(신고접수)";
+                tdStatus.innerText = "신고접수";
             }
 
             if (memberDetailInfo.reportPenalty == 'N' || memberDetailInfo.reportPenalty == 'A') {
                 tdStatus.innerText = "활동중";
             }
 
-            if (memberDetailInfo.reportPenalty == 'Y') {
+            if (memberDetailInfo.reportPenalty == 'Y' && memberDetailInfo.memberDelFl == 'N') {
                 tdStatus.innerText = "정지";
             }
         }
@@ -456,7 +448,7 @@ const printMemberDetail = (memberDetailInfo, memberHistoryList) => {
     address.innerText = "주소";
 
     const tdAddress = document.createElement("td");
-    tdAddress.colSpan = "3";
+    tdAddress.colSpan = "2";
 
     const add = memberDetailInfo.memberAddress;
     tdAddress.innerText = add;
@@ -483,7 +475,7 @@ const printMemberDetail = (memberDetailInfo, memberHistoryList) => {
 
     const th1 = document.createElement("th");
     th1.style.width = "160px";
-    th1.innerText = "처리 일자";
+    th1.innerText = "일자";
 
     const th2 = document.createElement("th");
     th2.style.width = "130px";
@@ -494,146 +486,98 @@ const printMemberDetail = (memberDetailInfo, memberHistoryList) => {
     th3.innerText = "비고";
 
 
-    tr1.append(th1, th2, th3);
-    theadHistory.append(tr1);
-
     // 2) 가입
     var td4;
 
-    const tbody = document.createElement("tbody");
     const tr2 = document.createElement("tr");
     tr2.classList.add("row2");
 
-    // for (let history of memberHistoryList) {
+    for (let history of memberHistoryList) {
         td4 = document.createElement("td");
-        td4.innerText = memberDetailInfo.signUpDate;
-    // }
+        td4.innerText = history.signUpDate;
+    }
 
     const td5 = document.createElement("td");
     td5.innerText = "가입";
 
-    
     const td6 = document.createElement("td");
     // td6.innerText = "";
 
 
-    // 강제 탈퇴 버튼
-    const adminDelBtn = document.getElementById('adminDelBtn');
-
-    if (memberDetailInfo.memberDelFl == 'Y') {
-        
-        td6.innerText = "탈퇴";
-
-        // 가입일자, 가입 상태에 취소선 긋기
-        td4.style.textDecoration = 'line-through';
-        td5.style.textDecoration = 'line-through';
-
-        // 강제 탈퇴 버튼 비활성화
-        adminDelBtn.style.backgroundColor = 'lightgray';
-        adminDelBtn.style.cursor = 'default';
-        adminDelBtn.disabled = true;
-
-    } else{
-        // 강제 탈퇴 버튼 활성화
-        adminDelBtn.style.backgroundColor = '#C43819';
-        adminDelBtn.style.cursor = 'pointer';
-        adminDelBtn.disabled = false;
-    }
-
     // * 반복문 시작
-    
     const tbodyHistory = document.createElement("tbody");
 
     for (let history of memberHistoryList) {
-
         const trReport = document.createElement("tr");
         const tdReportDate = document.createElement("td");
         const tdReport = document.createElement("td");
         const tdReportReason = document.createElement("td");
 
 
-        let volume = history.reportVolume;
-
-        if(volume <= 2 || history.reportPenalty == null) {
-            document.getElementById("memberHistorySpan").style.height = '150px';
-            document.getElementById("memberHistorySpan").style.overflow = 'hidden';
-        } else  {
-            // document.getElementById("memberHistorySpan").style.height = '400px';
-            document.getElementById("memberHistorySpan").classList.add("member-history");
-            document.getElementById("memberHistorySpan").style.height = '500px';
-            document.getElementById("memberHistorySpan").style.overflow = 'scroll';
-            
-        }
-
-        // 3) 신고 처리 내역
-        if (history.processDate != null){
-            if (history.memberDelFl == 'N') {
-                // 강제 탈퇴 버튼 활성화
-                adminDelBtn.style.backgroundColor = '#C43819';
-                adminDelBtn.style.cursor = 'pointer';
-                adminDelBtn.disabled = false;
-
-
-                if (history.reportPenalty == 'Y' || history.reportPenalty == 'A') {
-                    tdReportDate.innerText = history.reportDate;
-                    // tdReportDate.innerText = history.processDate;
-                    // fixme: 원래 processDate가 맞음. 정지 계정이 활성화된 시각임.
-                    // 원래 정지 해제 스케줄링을 매 초로 했었는데 부하가 너무 심해서
-                    // 하루에 한 번으로 바꿔놓은 상태
-                    // 모든 정지 해제 시간이 똑같이 나옴.
-                    // 일단은 신고시간으로 바꿔놓음. 마지막에 스케줄링 바꾸면서 같이 바꿀 것!
-                    tdReport.innerText = "정지";
-                    tdReportReason.innerText = history.reportReason;
-
-                    if(volume == 1){
-                        tdReportReason.innerText = history.reportReason
-                    } else if (volume > 1) {
-                        tdReportReason.innerText = history.reportReason + " 외 " + (volume -1) + "건";
-                    }
-
-                }
-    
-                // 강제 탈퇴 버튼 활성화
-                adminDelBtn.style.backgroundColor = '#C43819';
-                adminDelBtn.style.cursor = 'pointer';
-                adminDelBtn.disabled = false;
-                
-                // }
-
-                
-
-            }
-
-        } else {
+        if (history.reportPenalty == null) {
             tdReportDate.innerHTML = "";
             tdReport.innerHTML = "";
+            tdReportReason.innerHTML = "";
+        }
+
+
+        // 3) 신고 처리 내역
+
+        // 강제 탈퇴 버튼
+        const adminDelBtn = document.getElementById('adminDelBtn');
+
+        if (history.memberDelFl == 'N') {
+            if (history.reportPenalty == 'Y' || history.reportPenalty == 'A') {
+                tdReportDate.innerText = history.processDate;
+                tdReport.innerText = "정지";
+                tdReportReason.innerText = history.reportReason;
+            }
+
+            // 강제 탈퇴 버튼 활성화
+            adminDelBtn.style.backgroundColor = '#C43819';
+            adminDelBtn.style.cursor = 'pointer';
+            adminDelBtn.disabled = false;
+        }
+
+        if (history.memberDelFl == 'Y') {
+            td6.innerText = "회원 탈퇴";
+
+            // if(history.reportPenalty == 'Y'){
+            adminDelBtn.addEventListener('click', () => {
+                tdReportDate.innerText = history.processDate;
+                tdReport.innerText = "강제 탈퇴";
+                tdReportReason.innerText = history.reportReason;
+            })
+            // }
+
+            // 가입일자, 가입 상태에 취소선 긋기
+            td4.style.textDecoration = 'line-through';
+            td5.style.textDecoration = 'line-through';
+
+            // 강제 탈퇴 버튼 비활성화
+            adminDelBtn.style.backgroundColor = 'lightgray';
+            adminDelBtn.style.cursor = 'default';
+            adminDelBtn.disabled = true;
+        }
+
+        if (history.processDate != null) {
+            tdReportReason.innerText = history.reportReason;
+        } else {
             tdReportReason.innerText = "";
         }
 
-        // 강제 탈퇴 버튼 누르면,
-        // if(history.reportPenalty == 'Y'){
-        // adminDelBtn.addEventListener('click', () => {
 
-        //     // 가입일자, 가입 상태에 취소선 긋기
-        //     td4.style.textDecoration = 'line-through';
-        //     td5.style.textDecoration = 'line-through';
+        //조립
+        tr1.append(th1, th2, th3);
+        tr2.append(td4, td5, td6);
 
-        //     // 강제 탈퇴 버튼 비활성화
-        //     adminDelBtn.style.backgroundColor = 'lightgray';
-        //     adminDelBtn.style.cursor = 'default';
-        //     adminDelBtn.disabled = true;
-        // })
-
-        // 신고 처리 내역이 있을 때 조립
-        // if (history.reportPenalty != null) {
-        // }
-        trReport.append(tdReportDate, tdReport, tdReportReason);
-        tbodyHistory.append(trReport);
+        if (history.reportPenalty != null) {
+            trReport.append(tdReportDate, tdReport, tdReportReason);
+            tbodyHistory.append(trReport);
+        }
     }
-    
-    tr2.append(td4, td5, td6);
-    tbody.append(tr2);
-    historyTable.append(theadHistory, tbody, tbodyHistory);
+    theadHistory.append(tr1);
+    historyTable.append(theadHistory, tr2, tbodyHistory);
 
 }
 
@@ -802,62 +746,58 @@ const getFilterNum = (string) => {
 }
 
 
-
+// 판매자인증 필터 authFilter  ..  반복문 실패...
+// 0 전체, 1 미등록, 2 판매자, 3 인증대기
+// for(auth of authFiltering){
+//     auth.addEventListener("click", ()=>{
+//         console.log(auth);
+//         let authFl = getFilterNum(auth.id);
+//         authFilter = authFl;  
+//         selectMemberList();
+//         console.log(authFilter);
+//     })
+// }
 const dropBtn1Text = document.getElementById("dropBtn1Text");
 const dropBtn2Text = document.getElementById("dropBtn2Text")
 
-// 판매자인증 필터 authFilter  ..  반복문 실패...
-// 0 전체, 1 미등록, 2 판매자, 3 인증대기
-// fix: 깔끔하게 수정하기!
-var dropBtn1TextArr = ['판매자 등록', '미등록', '판매자', '인증 대기', '인증 보류'];
+document.getElementById("a0").addEventListener("click", () => {
+    numCount = (cp - 1) * 15;
+    let authFl = getFilterNum("a0");
+    authFilter = authFl;
+    selectMemberList();
+    dropBtn1Text.innerText = "판매자 등록";
+})
 
-for(let i=0; i<dropBtn1TextArr.length; i++){
-    document.getElementById("a" + i).addEventListener("click", () => {
-        numCount = (cp - 1) * 15;
-        authFilter = i;  // statFilter : jsp에서 전역변수로 선언함.
-        selectMemberList();
-        dropBtn1Text.innerText = dropBtn1TextArr[i];
-    })
-}
+document.getElementById("a1").addEventListener("click", () => {
+    numCount = (cp - 1) * 15;
+    let authFl = getFilterNum("a1");
+    authFilter = authFl;
+    selectMemberList();
+    dropBtn1Text.innerText = "미등록";
+})
 
-// document.getElementById("a0").addEventListener("click", () => {
-//     numCount = (cp - 1) * 15;
-//     let authFl = getFilterNum("a0");
-//     authFilter = authFl;
-//     selectMemberList();
-//     dropBtn1Text.innerText = "판매자 등록";
-// })
+document.getElementById("a2").addEventListener("click", () => {
+    numCount = (cp - 1) * 15;
+    let authFl = getFilterNum("a2");
+    authFilter = authFl;
+    selectMemberList();
+    dropBtn1Text.innerText = "판매자";
+})
 
-// document.getElementById("a1").addEventListener("click", () => {
-//     numCount = (cp - 1) * 15;
-//     let authFl = getFilterNum("a1");
-//     authFilter = authFl;
-//     selectMemberList();
-//     dropBtn1Text.innerText = "미등록";
-// })
-
-// document.getElementById("a2").addEventListener("click", () => {
-//     numCount = (cp - 1) * 15;
-//     let authFl = getFilterNum("a2");
-//     authFilter = authFl;
-//     selectMemberList();
-//     dropBtn1Text.innerText = "판매자";
-// })
-
-// document.getElementById("a3").addEventListener("click", () => {
-//     numCount = (cp - 1) * 15;
-//     let authFl = getFilterNum("a3");
-//     authFilter = authFl;
-//     selectMemberList();
-//     dropBtn1Text.innerText = "인증 대기";
-// })
-// document.getElementById("a4").addEventListener("click", () => {
-//     numCount = (cp - 1) * 15;
-//     let authFl = getFilterNum("a4");
-//     authFilter = authFl;
-//     selectMemberList();
-//     dropBtn1Text.innerText = "인증 보류";
-// })
+document.getElementById("a3").addEventListener("click", () => {
+    numCount = (cp - 1) * 15;
+    let authFl = getFilterNum("a3");
+    authFilter = authFl;
+    selectMemberList();
+    dropBtn1Text.innerText = "인증 대기";
+})
+document.getElementById("a4").addEventListener("click", () => {
+    numCount = (cp - 1) * 15;
+    let authFl = getFilterNum("a4");
+    authFilter = authFl;
+    selectMemberList();
+    dropBtn1Text.innerText = "인증 보류";
+})
 
 
 
@@ -865,55 +805,50 @@ for(let i=0; i<dropBtn1TextArr.length; i++){
 
 // 상태 필터 ststFilter
 // 0 전체, 1 활동중, 2 신고 접수, 3 정지, 4 탈퇴
-// fix: 깔끔하게 수정하기!
-// var dropBtn2TextArr = ['상태', '활동중', '신고접수', '정지', '탈퇴'];
-var dropBtn2TextArr = ['상태', '활동중', '정지', '탈퇴'];
-
-for(let i=0; i<dropBtn2TextArr.length; i++){
-    document.getElementById("s" + i).addEventListener("click", () => {
-        numCount = (cp - 1) * 15;
-        statFilter = i;  // statFilter : jsp에서 전역변수로 선언함.
-        selectMemberList();
-        dropBtn2Text.innerText = dropBtn2TextArr[i];
-    })
-}
+// for(stat of statFiltering){
+//     stat.addEventListener("click", () => {
+//         let statFl = getFilterNum(stat.id);
+//         statFilter = statFl;
+//         selectMemberList();
+//     })
+// }
 
 
-// document.getElementById("s0").addEventListener("click", () => {
-//     numCount = (cp - 1) * 15;
-//     let statFl = getFilterNum("s0");
-//     statFilter = statFl;  // statFilter : jsp에서 전역변수로 선언함.
-//     selectMemberList();
-//     dropBtn2Text.innerText = "상태";
-// })
-// document.getElementById("s1").addEventListener("click", () => {
-//     numCount = (cp - 1) * 15;
-//     let statFl = getFilterNum("s1");
-//     statFilter = statFl;
-//     selectMemberList();
-//     dropBtn2Text.innerText = "활동중";
-// })
-// document.getElementById("s2").addEventListener("click", () => {
-//     numCount = (cp - 1) * 15;
-//     let statFl = getFilterNum("s2");
-//     statFilter = statFl;
-//     selectMemberList();
-//     dropBtn2Text.innerText = "신고접수";
-// })
-// document.getElementById("s3").addEventListener("click", () => {
-//     numCount = (cp - 1) * 15;
-//     let statFl = getFilterNum("s3");
-//     statFilter = statFl;
-//     selectMemberList();
-//     dropBtn2Text.innerText = "정지";
-// })
-// document.getElementById("s4").addEventListener("click", () => {
-//     numCount = (cp - 1) * 15;
-//     let statFl = getFilterNum("s4");
-//     statFilter = statFl;
-//     selectMemberList();
-//     dropBtn2Text.innerText = "탈퇴";
-// })
+document.getElementById("s0").addEventListener("click", () => {
+    numCount = (cp - 1) * 15;
+    let statFl = getFilterNum("s0");
+    statFilter = statFl;  // statFilter : jsp에서 전역변수로 선언함.
+    selectMemberList();
+    dropBtn2Text.innerText = "상태";
+})
+document.getElementById("s1").addEventListener("click", () => {
+    numCount = (cp - 1) * 15;
+    let statFl = getFilterNum("s1");
+    statFilter = statFl;
+    selectMemberList();
+    dropBtn2Text.innerText = "활동중";
+})
+document.getElementById("s2").addEventListener("click", () => {
+    numCount = (cp - 1) * 15;
+    let statFl = getFilterNum("s2");
+    statFilter = statFl;
+    selectMemberList();
+    dropBtn2Text.innerText = "신고접수";
+})
+document.getElementById("s3").addEventListener("click", () => {
+    numCount = (cp - 1) * 15;
+    let statFl = getFilterNum("s3");
+    statFilter = statFl;
+    selectMemberList();
+    dropBtn2Text.innerText = "정지";
+})
+document.getElementById("s4").addEventListener("click", () => {
+    numCount = (cp - 1) * 15;
+    let statFl = getFilterNum("s4");
+    statFilter = statFl;
+    selectMemberList();
+    dropBtn2Text.innerText = "탈퇴";
+})
 
 
 
@@ -921,6 +856,7 @@ for(let i=0; i<dropBtn2TextArr.length; i++){
 
 
 // todo: 강제 탈퇴 시키기 (by 관리자)
+//fixme: 안 비워줘서 바로바로 적용이 안되는 것 같다..
 // 강제 탈퇴 버튼 클릭 시 모달 열리기
 const adminDelBtn = document.getElementById("adminDelBtn");
 
@@ -933,51 +869,31 @@ adminDelBtn.addEventListener('click', () => {
 // 모달에서 강제 탈퇴 제출 버튼 클릭 시
 document.getElementById("adminDelSubmitBtn").addEventListener('click', () => {
 
-    //fix: restful api로 바꾸기 + axios로 변경
-    axios.put("/admin/member/"+hiddenNo+ "/kickout")
-    .then((response) => { // 성공
-        const result = response.data;
-        
-        if (result > 0) {
-            adminModalClose();
+    $.ajax({
+        url: "/admin/kickout",
+        data: { "hiddenNo": hiddenNo },
+        type: "POST",
+        success: (result) => {
+            if (result > 0) {
+                adminModalClose();
 
-            selectMemberList(cp);
-            selectMemberDetail(hiddenNo);
+                selectMemberList(cp);
+                selectMemberDetail(hiddenNo);
 
-            console.log("강제 탈퇴 완료");
-            messageModalOpen("강제 탈퇴 되었습니다.");
+                console.log("강제 탈퇴 완료");
+                messageModalOpen("강제 탈퇴 되었습니다.");
 
-        } else {
-            console.log("강퇴 처리 실패");
+                //fixme: 시간 남을 때 모달이랑, 스크롤 위치 수정
+
+
+            } else {
+                console.log("강퇴 처리 실패");
+            }
+        },
+        error: () => {
+            console.log("강퇴 처리 오류");
         }
-
-    }).catch(() => {
-         console.log("강퇴 처리 오류");
     });
-
-
-    // $.ajax({
-    //     url: "/admin/kickout",
-    //     data: { "hiddenNo": hiddenNo },
-    //     type: "POST",
-    //     success: (result) => {
-    //         if (result > 0) {
-    //             adminModalClose();
-
-    //             selectMemberList(cp);
-    //             selectMemberDetail(hiddenNo);
-
-    //             console.log("강제 탈퇴 완료");
-    //             messageModalOpen("강제 탈퇴 되었습니다.");
-
-    //         } else {
-    //             console.log("강퇴 처리 실패");
-    //         }
-    //     },
-    //     error: () => {
-    //         console.log("강퇴 처리 오류");
-    //     }
-    // });
 });
 
 
@@ -987,8 +903,6 @@ document.getElementById("adminDelSubmitBtn").addEventListener('click', () => {
 // 1) 버튼 눌러서검색
 document.getElementById("memberSearchBtn").addEventListener('click', () => {
     doSearch();
-    dropMenu1.style.display = "none";
-    dropMenu2.style.display = "none";
 })
 
 // 2) 엔터키로 검색
@@ -998,8 +912,6 @@ document.getElementById("adminMemberkeyword").addEventListener('keydown', (e) =>
 
     if (keyCode == 13) {  // 엔터키
         doSearch();
-        dropMenu1.style.display = "none";
-        dropMenu2.style.display = "none";
     }
 })
 
@@ -1007,15 +919,6 @@ document.getElementById("adminMemberkeyword").addEventListener('keydown', (e) =>
 const doSearch = () => {
     numCount = (cp - 1) * 15;  //순번 정렬
     keyword = document.getElementById("adminMemberkeyword").value; // 입력한 검색어 
-
-    // 재검색 시, 초기화
-    if((authFilter > 0 && keyword !=null) || (statFilter > 0 && keyword !=null )){
-        authFilter = 0;
-        statFilter = 0;
-        document.getElementById("dropBtn1Text").innerText = "판매자 등록";
-        document.getElementById("dropBtn2Text").innerText = "상태";
-    }
-
     selectMemberList(cp);
 }
 

@@ -2,7 +2,6 @@ package edu.kh.farmfarm.chat2.model.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -167,7 +166,7 @@ public class Chat2ServiceImpl implements Chat2Service {
 	// 사진 전송
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public List<Object> insertNewChatImg(int roomNo, int memberNo, MultipartFile chatImg, String webPath, String folderPath) throws IllegalStateException, IOException {
+	public String insertNewChatImg(int roomNo, int memberNo, MultipartFile chatImg, String webPath, String folderPath) throws IllegalStateException, IOException {
 		
 		// 최종 결과를 담을 변수
 		String newChatImgPath = null;
@@ -212,11 +211,8 @@ public class Chat2ServiceImpl implements Chat2Service {
 			}
 		}
 		
-		List<Object> list = new ArrayList<>();
-		list.add(chat.getChatNo());
-		list.add(newChatImgPath);
 		// 만약 중간에 오류가 발생하면, null값이 반환됨!
-		return list;
+		return newChatImgPath;
 	}
 	
 	// 채팅 삭제
