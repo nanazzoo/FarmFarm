@@ -5,15 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,9 +35,9 @@ public class ReviewController {
 	 * @param reviewNo
 	 * @return
 	 */
-	@GetMapping("/select/review/{reviewNo}")
+	@GetMapping("/review/{reviewNo}")
 	public String reviewDetail(int memberNo, 
-			@PathVariable("reviewNo")int reviewNo) {
+			@PathVariable("reviewNo") int reviewNo) {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -54,7 +53,7 @@ public class ReviewController {
 	 * @param productNo
 	 * @return
 	 */
-	@GetMapping("/select/reviewImgList")
+	@GetMapping("/review/images")
 	public String selectImgReview(int productNo) {
 		
 		List<Review> reviewList = service.selectImgReview(productNo);
@@ -102,7 +101,7 @@ public class ReviewController {
 	 * @param cp
 	 * @return
 	 */
-	@GetMapping("/select/review")
+	@GetMapping("/review")
 	public String selectReviewList(int productNo,
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
 			@RequestParam(name = "sortFl", required = false, defaultValue = "R") String sortFl,
@@ -134,7 +133,7 @@ public class ReviewController {
 	 * @return
 	 * @throws Exception
 	 */
-	@PostMapping("/review/update")
+	@PostMapping("/review/{reviewNo}")
 	public int updateReview(Review review,
 			@SessionAttribute("loginMember") Member loginMember,
 			HttpSession session,
@@ -142,7 +141,6 @@ public class ReviewController {
 			@RequestParam(value = "deleteList", required = false) String deleteList
 			) throws Exception {
 		
-		System.out.println(review.getReviewNo());
 		
 		review.setMemberNo(loginMember.getMemberNo());
 		
@@ -158,8 +156,12 @@ public class ReviewController {
 	}
 	
 	
-	@GetMapping("/review/delete")
-	public int deleteReview(int reviewNo) {
+	/** 후기 삭제
+	 * @param reviewNo
+	 * @return result
+	 */
+	@DeleteMapping("/review/{reviewNo}")
+	public int deleteReview(@PathVariable("reviewNo") int reviewNo) {
 		
 		return service.deleteReview(reviewNo);
 	}

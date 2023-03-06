@@ -1,5 +1,5 @@
 
-// 해당 게시판에 언더바 나오게 하기~
+// 해당 게시판에 언더바 나오게 하기
 const type1 = document.getElementById("type1");
 const type2 = document.getElementById("type2");
 const type3 = document.getElementById("type3");
@@ -26,19 +26,13 @@ if(boardTypeNo == 3){
     boardTopTitle.innerText = "와글와글 질문";
 }
 
-// 목록으로 가기 버튼~
+// 목록으로 가기 버튼
 const goList = document.querySelector(".goList");
 goList.addEventListener("click", ()=>{
     const pathname = location.pathname;
     const queryString = location.search;
-
-    // const url = pathname.substring(0, pathname.lastIndexOf("/"))+queryString;
-    
-    // // location.href = url;
     
     const params = new URL(location.href).searchParams;
-    
-    // const cp = boardTypeNo;
     
     const keyy = params.get("key");
     const queryy = params.get("query");
@@ -48,21 +42,9 @@ goList.addEventListener("click", ()=>{
         sortt = "new";
     }
     
-    
-    console.log("목록으로 cp : "+cpp);
-    console.log("목록으로 key : "+keyy);
-    console.log("목록으로 query : "+queryy);
-    console.log("목록으로 sort : "+sortt);
-    
     const url = pathname.substring(0, pathname.lastIndexOf("/"))+queryString;
     location.href = url;
-    // showBoardList(cpp, sortt, queryy, keyy);
-    // showBoardList(cpp, sortt, queryy, keyy);
 
-    // const state = {'cp':cpp, 'sort':sortt, 'key':keyy, 'query':queryy}
-    // const title = '';
-    // const reUrl = "/board/"+boardTypeNo+"?cp="+cpp+"&key="+keyy+"&query="+queryy+"&sort="+sortt;
-    // history.pushState(state, title, reUrl);
 })
 
 
@@ -98,8 +80,7 @@ if(likeBtn != null){
             });
         }
         else{
-        // if(e.target.classList.contains('fa-regular')){
-            // 좋아요 누르기~
+            // 좋아요 누르기
             $.ajax({
                 url:"/boardLikeInsert",
                 data : {"boardNo":boardNo, "memberNo":memberNo},
@@ -120,54 +101,99 @@ if(likeBtn != null){
             });
     
         }
-        
     
     });
 }
 
-// 해야되는게 삭제하기 수정하기인데 삭제랑 수정을 
-// 모달으로 물어볼지 아님 컨펌으로 할지 잘 생각해보기
-// 그 다음에 댓글 수정 삭제 답글 하자!
+// 게시글 작성자가 삭제하기 - 수정 전 코드
+// const boardDelete = document.getElementById("boardDelete");
+// if(boardDelete != null){
+    //     boardDelete.addEventListener("click", ()=>{
+        
+        //         if(confirm("게시글을 삭제하시겠습니까?")){
+            //             location.href = location.pathname+"/delete";
+            //         }
+            
+        //     })
+// };
 
-// 게시글 작성자가 삭제하기~
+// 게시글 작성자가 삭제하기 - 수정 후 코드1
+// const boardDelete = document.getElementById("boardDelete");
+// if(boardDelete != null){
+    //     boardDelete.addEventListener("click", ()=>{
+        
+        //         if(confirm("게시글을 삭제하시겠습니까?")){
+            //             $.ajax({
+                //                 url : '/board/'+ boardTypeNo +"/"+ boardNo,
+                //                 type : 'delete',
+                //                 success : result=>{
+                    //                     if(result > 0){
+                        //                         location.href = '/board/'+boardTypeNo;
+                        //                         alert("삭제 되었습니다.");
+                        //                     }else{
+                            //                         alert("삭제 실패 했습니다.");
+                            //                     }
+                            //                 },
+                            //                 error : ()=>{
+//                     console.log("게시글 삭제 통신 오류");
+//                 }
+//             })
+//         }
+//     })
+// };
+
+// 게시글 작성자가 삭제하기 - 수정 후 코드2
 const boardDelete = document.getElementById("boardDelete");
 if(boardDelete != null){
     boardDelete.addEventListener("click", ()=>{
         
         if(confirm("게시글을 삭제하시겠습니까?")){
-            location.href = location.pathname+"/delete";
+            axios.delete('/board/'+ boardTypeNo +"/"+ boardNo)
+            .then(function (response) {
+                if(response.data > 0){
+                    location.href = '/board/'+boardTypeNo;
+                    console.log(response);
+                    alert("삭제 되었습니다.");
+                }else{
+                    alert("삭제 실패 했습니다.");
+                }
+            }).catch(function(error) {
+                console.log("게시글 삭제 통신 오류");
+            })
         }
-        
     })
 };
-// 게시글 관리자가 삭제하기~
+
+// 게시글 관리자가 삭제하기
 const adminBoardDelete = document.getElementById("adminBoardDelete");
 if(adminBoardDelete != null){
     adminBoardDelete.addEventListener("click", ()=>{
         if(confirm("관리자 권한으로 게시글을 삭제하시겠습니까?")){
-            location.href = location.pathname+"/delete";
+            axios.delete('/board/'+ boardTypeNo +"/"+ boardNo)
+            .then(function (response) {
+                if(response.data > 0){
+                    location.href = '/board/'+boardTypeNo;
+                    console.log(response);
+                    alert("삭제 되었습니다.");
+                }else{
+                    alert("삭제 실패 했습니다.");
+                }
+            }).catch(function(error) {
+                console.log("게시글 삭제 통신 오류");
+            })
         }
     })
 }
 
 
-// 게시글 수정하기!
+// 게시글 수정하기
 const boardUpdate = document.getElementById("boardUpdate");
 if(boardUpdate != null){
     boardUpdate.addEventListener("click", ()=>{
         
         if(confirm("게시글을 수정하시겠습니까?")){
-            // if(boardTypeNo == 1){
-    
-            // }
             const pathname = location.pathname
             location.href = pathname + "/update" + location.search;
         }
     })
 }
-
-// window.onpageshow = function(event){
-//     if(event.persisted || (window.performance && window.performance.navigation.type == 2)){
-//         showBoardList();
-//     }
-// }
