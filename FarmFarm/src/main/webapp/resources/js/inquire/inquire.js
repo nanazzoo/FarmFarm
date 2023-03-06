@@ -1,16 +1,17 @@
 /* 문서 로딩 완료 후 수행 */
 /* 읽지 않은 메세지 수 체크 후 상담 아이콘에 표시 */
 document.addEventListener('DOMContentLoaded', () => { 
+  $.ajax({
+    url: "/inquire/unreadCheck",
+    dataType: 'json',
+    success: (unreadCount) => {
+      if (unreadCount > 0) {
+        document.getElementById('inquireUnread').style.display = 'block';
+      }
 
-  axios.get("/inquire/read")
-  .then((response) => {
-    console.log(response);
-    if (response.data > 0) {
-      document.getElementById('inquireUnread').style.display = 'block';
-    }
-  }).catch((err) => {
-    console.log(err);
-  });
+    },
+    error: () => { }
+  })
 })
 
 
@@ -29,25 +30,24 @@ if (inquireBtn != undefined) {
 }
 
 
-/* 상담방이 없으면 만들고, 있으면 해당 상담방 번호 반환 */
+/* 상담방이 없으면 만들고 있으면 해당 상담방 번호 반환 */
 const createInquire = () => {
 
-  axios.get("/inquire/join", {
-    params: {
-      'memberNo': loginMemberNo,
-      'memberNo2': 0
-    }
-  })
-  .then((response) => {
-    const inquireNo = response.data;
-    console.log(inquireNo);
+  $.ajax({
+    url:"/inquire/enter",
+    data: { 'memberNo': loginMemberNo, 'memberNo2': 0 },
+    success: (inquireNo) => {
+      console.log(inquireNo);
       memberInquireNo = inquireNo;
 
       /* 상담창 열기 */
       openInquire(inquireContainer, inquireNo);
-  }).catch((err) => {
-    console.log(err);
-  });
+    },
+    error: () => {
+      console.log('error');
+      
+    }
+  })
 
 }
 
@@ -100,15 +100,19 @@ const closeInquire = (inquireContainer) => {
 /* 상담방 메세지 목록 조회 */
 const selectInquire = (inquireNo) => { 
 
-  axios.get("/inquire/" + inquireNo)
-  .then((response) => {
-    const messageList = response.data;
+  $.ajax({
+    url: "/inquire/select",
+    data: { 'inquireNo': inquireNo },
+    dataType: 'json',
+    success: (messageList) => { 
+      console.log(messageList);
       fillInquireModal(messageList);
-
-  }).catch((err) => {
-    console.log(err);
-  });
-  
+    },
+    error: () => {
+      console.log('error');
+      
+    }
+  })
 
 }
 
@@ -372,23 +376,27 @@ if(inquireImage!=undefined) {
       const formData = new FormData(form);
 
 
-      axios.post("/inquire/images", formData, {
+      $.ajax({
+        url: "/inquire/imgUpload",
+        type: 'POST',
+        data: formData,
         processData: false,
         contentType: false,
-      })
-      .then((result) => {
-        let obj = {
-          "sendMemberNo": loginMemberNo,
-          "inquireNo": memberInquireNo,
-          "messageContent": result.data,
-          "imgFl":'Y'
-        };
+        success: (data) => {
+          let obj = {
+            "sendMemberNo": loginMemberNo,
+            "inquireNo": memberInquireNo,
+            "messageContent": data,
+            "imgFl":'Y'
+          };
+
         inquireSock.send(JSON.stringify(obj));
         form.reset();
-        console.log("이미지 전송 완료");
-      }).catch((err) => {
-        console.log(err);
-      });
+        },
+        error: () => {
+          console.log('error');
+        }
+      })
 
     }
 

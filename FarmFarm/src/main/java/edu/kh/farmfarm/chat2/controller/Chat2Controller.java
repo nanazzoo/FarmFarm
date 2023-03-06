@@ -267,9 +267,9 @@ public class Chat2Controller {
 		String folderPath = session.getServletContext().getRealPath(webPath);
 	
 		// 삽입
-		List<Object> list = service.insertNewChatImg(roomNo, memberNo, chatImg, webPath, folderPath);
+		String newChatImgPath = service.insertNewChatImg(roomNo, memberNo, chatImg, webPath, folderPath);
 		
-		return new Gson().toJson(list);
+		return new Gson().toJson(newChatImgPath);
 	}
 	
 	// 채팅 삭제 처리(UPDATE)

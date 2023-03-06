@@ -74,8 +74,9 @@
                                             <ul class="drop-ul" id="dropUl2">
                                                 <li class="statFilter" id="s0">전체</li>
                                                 <li class="statFilter" id="s1">활동중</li>
-                                                <li class="statFilter" id="s2">정지</li>
-                                                <li class="statFilter" id="s3">탈퇴</li>
+                                                <li class="statFilter" id="s2">신고접수</li>
+                                                <li class="statFilter" id="s3">정지</li>
+                                                <li class="statFilter" id="s4">탈퇴</li>
                                             </ul>
                                         </div>
                                     </th>
@@ -120,12 +121,12 @@
 
                                             <c:if test="${not empty member.reportType}">
                                                 <c:if test="${empty member.reportPenalty}">
-                                                    <td>활동중</td>  <%-- 원래는 신고접수 --%>
+                                                    <td>신고접수</td>
                                                 </c:if>
                                                 <c:if test="${member.reportPenalty eq 'N' || member.reportPenalty eq 'A'}">
                                                     <td>활동중</td>
                                                 </c:if>
-                                                <c:if test="${member.reportPenalty eq 'Y'}">
+                                                <c:if test="${member.reportPenalty eq 'Y'&& member.memberDelFl eq 'N'}">
                                                     <td>정지</td>
                                                 </c:if>
                                             </c:if>
@@ -231,7 +232,7 @@
                         </span>
 
                         <span class="member-history-title line">계정 상태</span>
-                        <span class="member-history" id="memberHistorySpan">
+                        <span class="member-history">
                             <table class="member-history-table" id="historyTable">
                                 <%--
                                     <thead>

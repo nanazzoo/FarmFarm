@@ -2,7 +2,6 @@ package edu.kh.farmfarm.chat2.model.service;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -64,7 +63,7 @@ public interface Chat2Service {
 	 * @param folderPath
 	 * @return
 	 */
-	List<Object> insertNewChatImg(int roomNo, int memberNo, MultipartFile chatImg, String webPath, String folderPath) throws IllegalStateException, IOException;
+	String insertNewChatImg(int roomNo, int memberNo, MultipartFile chatImg, String webPath, String folderPath) throws IllegalStateException, IOException;
 
 	/** 채팅 삭제처리
 	 * @param chatNo

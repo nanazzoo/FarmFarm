@@ -89,6 +89,7 @@
                         <span class="board-img-delete"><i class="fa-solid fa-xmark"></i></span>
                     </div>
                     
+                    
                 </div>
             </section>
         </form>

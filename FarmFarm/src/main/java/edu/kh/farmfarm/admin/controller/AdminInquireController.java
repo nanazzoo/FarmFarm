@@ -8,9 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -44,9 +41,9 @@ public class AdminInquireController {
 	}
 	
 //	상담방 메세지 목록 조회
-	@GetMapping("/admin/inquire/{inquireNo}")
+	@GetMapping("/inquire/message/list")
 	@ResponseBody
-	public String selectMessageList(@PathVariable("inquireNo") int inquireNo, 
+	public String selectMessageList(int inquireNo, 
 			@SessionAttribute("loginMember")Member loginMember) {
 		
 		
@@ -77,14 +74,9 @@ public class AdminInquireController {
 		return new Gson().toJson(inquireList);
 	}
 	
-	/** 상담 메시지 읽음처리
-	 * @param inquireNo
-	 * @param loginMember
-	 * @return
-	 */
-	@PutMapping("/inquire/{inquireNo}/read")
+	@GetMapping("/inquire/message/read")
 	@ResponseBody
-	public int updateMessageRead(@PathVariable("inquireNo") int inquireNo,
+	public int updateMessageRead(int inquireNo,
 			@SessionAttribute("loginMember")Member loginMember) {
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();

@@ -98,10 +98,10 @@
                 </div>
             </section>
             
-            <%-- 삭제 될 이미지를 저장 --%>
+            <%-- 삭제 될 이미지를 저장해봅시다~ --%>
             <input type="hidden" name="deleteImgList" id="deleteImgList" value="">
                     
-            <%-- 수정 후 리다이렉트를 위해 cp를 저장--%>
+            <%-- 수정 후 리다이렉트를 위해 cp를 저장해볼까요? --%>
             <input type="hidden" name="cp" value="${param.cp}">
         </form>
     </main>

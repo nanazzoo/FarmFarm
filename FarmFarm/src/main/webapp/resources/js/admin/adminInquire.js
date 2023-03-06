@@ -30,27 +30,30 @@ if (inquireRoomList != undefined) {
 
 /* 상담방 메세지 목록 조회하는 함수 */
 const selectMessageList = inquireNo => {
+  $.ajax({
+    url: "/inquire/message/list",
+    data: { 'inquireNo': inquireNo },
+    type: 'GET',
+    dataType: 'json',
+    success: (messageList) => {
+      console.log(messageList);
 
+      fillInquireRoom(messageList);
 
-  axios.get("/admin/inquire/" + inquireNo)
-  .then((response) => {
-    const messageList = response.data;
-    console.log(messageList);
+      /* 상담방 목록 재조회 */
+      selectInquireList(inquireNo);
 
-    fillInquireRoom(messageList);
+      const inputBox = document.getElementById('inputBox');
+      if (inputBox != undefined) {
+        inputBox.value = '';
+        inputBox.focus();
+      }
 
-    /* 상담방 목록 재조회 */
-    selectInquireList(inquireNo);
-
-    const inputBox = document.getElementById('inputBox');
-    if (inputBox != undefined) {
-      inputBox.value = '';
-      inputBox.focus();
+    },
+    error: (error) => {
+      console.log(error);
     }
-  }).catch((err) => {
-    console.log(err);
-  });
-
+  })
 }
 
 
@@ -138,13 +141,17 @@ const fillInquireRoom = (messageList) => {
 
 /* 상담방 목록 조회 */
 const selectInquireList = (inquireNo) => {
-
-  axios.get("/inquire/list")
-  .then((response) => {
-    console.log(response.data);
-    fillInquireList(response.data, inquireNo);
-  }).catch((err) => {
-    console.log(err);
+  $.ajax({
+    url: "/inquire/list",
+    type: 'GET',
+    dataType: 'json',
+    success: (inquireList) => {
+      console.log(inquireList);
+      fillInquireList(inquireList, inquireNo);
+    },
+    error: () => {
+      console.log('error');
+    }
   });
 }
 
@@ -309,22 +316,27 @@ if (inquireImage != undefined) {
       const formData = new FormData(form);
 
 
-      axios.post("/inquire/imgUpload", formData, {
+      $.ajax({
+        url: "/inquire/imgUpload",
+        type: 'POST',
+        data: formData,
         processData: false,
-        contentType: false
-      }).then((response) => {
-        let obj = {
-          "sendMemberNo": loginMemberNo,
-          "inquireNo": memberInquireNo,
-          "messageContent": response.data,
-          "imgFl": 'Y'
-        };
+        contentType: false,
+        success: (data) => {
+          let obj = {
+            "sendMemberNo": loginMemberNo,
+            "inquireNo": memberInquireNo,
+            "messageContent": data,
+            "imgFl": 'Y'
+          };
 
-        inquireSock.send(JSON.stringify(obj));
-        form.reset();
-      }).catch((err) => {
-        console.log(err);
-      });
+          inquireSock.send(JSON.stringify(obj));
+          form.reset();
+        },
+        error: () => {
+          console.log('error');
+        }
+      })
 
     }
 
@@ -354,7 +366,7 @@ inquireSock.onmessage = function (e) {
 
       const dateLabel = document.createElement('div');
       dateLabel.classList.add('date-label');
-      dateLabel.innerHTML = msg.messageDate;
+      dateLabel.innerHTML = item.messageDate;
 
       dateLabelLine.append(dateLabel);
       readingArea.append(dateLabelLine);
@@ -402,18 +414,17 @@ inquireSock.onmessage = function (e) {
   }, "1000")
 }
 
-/**
- * 메세지 읽음처리
- * @param {} inquireNo 
- */
 const updateMessageRead = (inquireNo) => {
-  axios.put("/inquire/" +inquireNo+ "/read")
-  .then((response) => {
-    console.log('메세지 읽음처리');
-  }).catch((err) => {
-    console.log(err);
-  });
-
+  $.ajax({
+    url: "/inquire/message/read",
+    data: { "inquireNo": inquireNo },
+    success: (result) => {
+      console.log('메세지 읽음처리');
+    },
+    error: () => {
+      console.log('error');
+    }
+  })
 }
 
 const searchBar = document.getElementById('searchBar');

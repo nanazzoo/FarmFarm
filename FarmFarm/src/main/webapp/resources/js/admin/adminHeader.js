@@ -55,17 +55,18 @@ window.onload = () =>{
 /* 문서 로딩 완료 후 읽지 않은 메세지가 있는 경우
 nav 상담 관리 버튼 옆에 빨간 아이콘 표시*/
 document.addEventListener('DOMContentLoaded', () => { 
-
-    axios.get("/inquire/read")
-    .then((response) => {
-      if (response.data > 0) {
-        document.getElementById('newMessage').classList.remove('hide');
-      } else {
-        document.getElementById('newMessage').classList.add('hide');
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
+    $.ajax({
+        url: "/inquire/unreadCheck",
+        dataType: 'json',
+        success: (unreadCount) => {
+            if (unreadCount > 0) {
+                document.getElementById('newMessage').classList.remove('hide');
+            } else {
+                document.getElementById('newMessage').classList.add('hide');
+            }
+        },
+        error: () => { }
+    })
 })
 
 

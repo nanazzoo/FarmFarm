@@ -74,8 +74,6 @@
 		<mapper resource="/mappers/chat2-mapper.xml"/>
 		<mapper resource="/mappers/inquire-mapper.xml"/>
 		<mapper resource="/mappers/graph-mapper.xml"/>
-		<mapper resource="/mappers/adminSeller-mapper.xml"/>
-		<mapper resource="/mappers/adminReport-mapper.xml"/>
   	</mappers>
 	
 </configuration>

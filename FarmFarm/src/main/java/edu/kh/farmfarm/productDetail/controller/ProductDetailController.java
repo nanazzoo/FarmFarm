@@ -7,10 +7,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -29,13 +27,6 @@ public class ProductDetailController {
 	@Autowired
 	private ProductDetailService service;
 	
-	/** 상품 판매페이지로 이동
-	 * @param loginMember
-	 * @param productNo
-	 * @param model
-	 * @param sortFl
-	 * @return
-	 */
 	@GetMapping("/product/{productNo}")
 	public String myPageReview(
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
@@ -65,15 +56,9 @@ public class ProductDetailController {
 	}
 	
 	
-	/** 찜하기
-	 * @param productNo
-	 * @param memberNo
-	 * @return
-	 */
-	@PostMapping("/wish/{memberNo}/{productNo}")
+	@GetMapping("/wish/add")
 	@ResponseBody
-	public int addWish(@PathVariable("memberNo") int memberNo, 
-			@PathVariable("productNo") int productNo) {
+	public int addWish(int productNo, int memberNo) {
 		
 		Product product = new Product();
 		product.setProductNo(productNo);
@@ -82,15 +67,9 @@ public class ProductDetailController {
 		return service.addWish(product);
 	}
 	
-	/** 찜 취소하기
-	 * @param productNo
-	 * @param memberNo
-	 * @return
-	 */
-	@DeleteMapping("/wish/{memberNo}/{productNo}")
+	@GetMapping("/wish/remove")
 	@ResponseBody
-	public int removeWish(@PathVariable("memberNo") int memberNo, 
-			@PathVariable("productNo") int productNo) {
+	public int removeWish(int productNo, int memberNo) {
 		
 		Product product = new Product();
 		product.setProductNo(productNo);
@@ -99,13 +78,9 @@ public class ProductDetailController {
 		return service.removeWish(product);
 	}
 	
-	/** 재고 확인
-	 * @param productNo
-	 * @return
-	 */
-	@GetMapping("/product/{productNo}/stock")
+	@GetMapping("/product/stock")
 	@ResponseBody
-	public int productStock(@PathVariable("productNo") int productNo) {
+	public int productStock(int productNo) {
 		
 		int stock = service.productStock(productNo);
 		

@@ -65,7 +65,7 @@ const selectReview = (reviewNo) => {
 
 
   $.ajax({
-    url: '/review/' + reviewNo,
+    url: '/select/review/' + reviewNo,
     data: { "memberNo": memberNo },
     dataType: 'json',
     success: (review) => {
@@ -157,6 +157,7 @@ for (let i = 0; i < inputFile.length; i++) {
         inputLabel[i].style.display = 'none';
         displayFlexNoLock(xBtn[i]);
 
+        deleteSet.delete(i);
 
       };
     } else {
@@ -209,7 +210,7 @@ document.getElementById('submitBtn').addEventListener('click', () => {
     const formData = new FormData(form);
 
     $.ajax({
-      url: "/review/" + formData.reviewNo,
+      url: "/review/update",
       data: formData,
       type: "POST",
       contentType: false,
@@ -409,13 +410,20 @@ const printReviewList = (reviewList, pagination) => {
 
 const deleteReview = (reviewNo) => {
 
-  axios.delete('/review/' + reviewNo)
-  .then((response) => {
-    messageModalOpen("삭제되었습니다.");
-    selectReviewList(1);
+  $.ajax({
+    url: "/review/delete",
+    data: { "reviewNo": reviewNo },
+    success: (result) => {
+
+      messageModalOpen("삭제되었습니다.");
+
+      selectReviewList(1);
+
+    },
+    error: () => {
+      console.log("error");
+
+    }
   })
-  .catch((error) => {
-    console.log(error);
-  });
 
 }
