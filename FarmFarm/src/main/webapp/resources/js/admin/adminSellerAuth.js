@@ -7,7 +7,7 @@
 */
 
 var numCount = 0;
-var hiddenNo = 0;  // 인증신청서, 승인, 거부에 사용
+var hiddenNo = 0;  // (판매자회원번호) 인증신청서, 승인, 거부에 사용
 var keyword;
 // var hiddenId = null;
 
@@ -17,7 +17,7 @@ var keyword;
 /** 판매자 정보 조회 함수 ajax */
 const selectSellerList = (cp) => {
     $.ajax({
-        url: "/admin/selectSellerList",
+        url: "/admin/seller/list",
         data: { "cp": cp, "sellerFilter": sellerFilter, "keyword": keyword },
         dataType: "JSON",
         type: "GET",
@@ -37,9 +37,9 @@ const selectSellerList = (cp) => {
 /** 인증 신청서 조회 함수 ajax */
 const selectAuthPaper = (hiddenNo) => {
     $.ajax({
-        url: "/admin/selectAuthPaper",
+        url: "/admin/seller/" + hiddenNo,
         data: { "hiddenNo": hiddenNo },
-        type: "POST",
+        type: "GET",
         success: (authPaper) => {
             printSellerAuthPaper(authPaper);
             console.log("인증신청서 조회 성공");
@@ -542,9 +542,9 @@ allSellerBtn.addEventListener('click', () => {
 document.getElementById('authApproveBtn').addEventListener('click', () => {
 
     $.ajax({
-        url: '/admin/sellerApprove',
-        data: { "hiddenNo": hiddenNo },
-        type: 'POST',
+        url: '/admin/seller/' + hiddenNo + '/approve',
+        data: { "memberNo": hiddenNo },
+        type: 'PATCH',
         success: (result) => {
 
             if (result > 0) {
@@ -571,12 +571,12 @@ document.getElementById('denyBtn').addEventListener('click', () => {
     const denyReason = document.getElementById('denyReason').value;
 
     $.ajax({
-        url: '/admin/sellerDeny',
+        url: '/admin/seller/' + hiddenNo + '/deny',
         data: {
-            "hiddenNo": hiddenNo,
+            "memberNo": hiddenNo,
             "denyReason": denyReason
         },
-        type: 'POST',
+        type: 'PATCH',
         success: (result) => {
 
             if (result > 0) {
