@@ -82,6 +82,7 @@
 
 ## 3. 트러블 슈팅
 [오라클 클라우드 배포 중 SQL 문제 발생](https://nanazzoo.github.io/posts/Oracle-Cloud-%ED%98%B8%EC%8A%A4%ED%8C%85-%EC%A4%91-%EC%98%88%EC%99%B8-%EB%B0%9C%EC%83%9D/)
+
 [RESTful API 형식으로 리팩토링 진행](https://nanazzoo.github.io/posts/Oracle-Cloud-%ED%98%B8%EC%8A%A4%ED%8C%85-%EC%A4%91-%EC%98%88%EC%99%B8-%EB%B0%9C%EC%83%9D/)
 
 </br></br></br></br></br></br>
