@@ -50,7 +50,7 @@
 
 	
 
-<div align="center">![Uploading KakaoTalk_20230224_143033180.png…]()
+<div align="center">
 
   
 ### **Back-end**
