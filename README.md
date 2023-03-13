@@ -31,7 +31,7 @@
 <br>
 <br>    <br>
 
-## 1. 제작 기간 & 참여 인원 & 역할
+## 제작 기간 & 참여 인원 & 역할
 - 제작 기간: 2022년 12월 12일부터 2023년 1월 11일까지
 - 참여 인원: 6명 (팀 프로젝트)
 - 역할: 팀원 (백엔드, 프론트엔드)
@@ -56,7 +56,7 @@
 </br></br></br></br></br></br>
 </br>
 
-## 2. 사용 기술
+## 사용 기술
 
 <div align="center">
   
@@ -80,7 +80,7 @@
 
 
 
-## 3. 트러블 슈팅 & 성과
+## 트러블 슈팅 & 성과
 [오라클 클라우드 배포 중 SQL 문제 발생](https://nanazzoo.github.io/posts/Oracle-Cloud-%ED%98%B8%EC%8A%A4%ED%8C%85-%EC%A4%91-%EC%98%88%EC%99%B8-%EB%B0%9C%EC%83%9D/)
 
 [RESTful API 형식으로 리팩토링 진행](https://nanazzoo.github.io/posts/Oracle-Cloud-%ED%98%B8%EC%8A%A4%ED%8C%85-%EC%A4%91-%EC%98%88%EC%99%B8-%EB%B0%9C%EC%83%9D/)
@@ -89,13 +89,13 @@
 
 
 
-## 4. ERD 설계
+## ERD 설계
 > [팜팜 ERD cloud ](https://www.erdcloud.com/d/xpKBdcyyrs6Ef2k9F)
 <img src="/FarmFarm ERD-min.png" />
 
 </br></br></br></br></br></br></br></br></br>
 
-## 5. 핵심 기능
+## 핵심 기능
 
 
 이 서비스의 핵심 기능은 상품 결제 취소 기능입니다. 아임 포트 API를 이용하여 구현하였습니다.
@@ -111,20 +111,20 @@
 <div markdown="1">
 
 
-### 5.1. 전체 흐름
+### 1. 전체 흐름
 
 <img src="/spring.png">
 	
 </br>
 
-### 5.2. 사용자 요청
+### 2. 사용자 요청
 
 - 사용자는 주문 내역에서 아직 배송 되지 않은 상품에 대해서 결제 취소를 요청할 수 있습니다.
 - 사용자가 결제 취소 버튼을 클릭하면 결제 취소 요청이 컨트롤러로 전송됩니다.
 
 </br>
 
-### 5.3. Controller
+### 3. Controller
 
 ~~~java
 	/** 주문 취소
@@ -165,7 +165,7 @@
 
 </br>  
 
-### 5.4. Service
+### 4. Service
 
 ~~~java
 	/* 결제 토큰 얻어오기 */
@@ -255,7 +255,7 @@
 
 </br>
 
-### 5.5. Repository
+### 5. Repository
 
 ~~~java
 	/** 주문 취소
