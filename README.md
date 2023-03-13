@@ -55,10 +55,6 @@
 -  프로젝트 구조
 <img src="/project.png" />
 	
-</br></br></br></br></br></br>
-</br>
-
-## 사용 기술
 
 <div align="center">
   
