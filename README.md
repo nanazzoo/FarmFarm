@@ -9,7 +9,7 @@
 
 
 
-# :pushpin: [FarmFarm](http://129.154.53.250:8080) (Test ID: user02 PW: pass01! | Admin ID: admin PW: admin01!)
+# :pushpin: [FarmFarm](http://129.154.53.250:8080)
 
 </br></br>
 
