@@ -130,28 +130,34 @@
 ~~~java
 	/** 주문 취소
 	 * @param orderNo
-	 * @return result
+	 * @return
 	 * @throws IOException
 	 */
-	@GetMapping("/order/cancel")
+	@PatchMapping("/orders/{orderNo}")
 	@ResponseBody
-	public int orderCancel(int orderNo) throws IOException {
-				
-//		IMP_UID가 담긴 주문 정보 조회
+	public int orderCancel(
+			@PathVariable("orderNo")int orderNo) throws IOException {
+		
+		
+//		주문 결제 IMP_UID 얻어오기
 		Order order = service.selectImpUid(orderNo);
 		
-        // 아임 포트에서 token 얻어오기
+		
 		String token = service.getToken();
 		System.out.println(token);
 		
-//		imp_uid 이용해서 환불 요청하기
-		int result = service.paymentCancel(token, order);
 		
-        // 환불 성공 시 DB에 취소 내역 저장
-		if(result > 0) {
-			result = service.orderCancel(orderNo);
+//		imp_uid 이용해서 환불 요청하기
+		ImpToken impUid = service.paymentCancel(token, order);
+		
+		if(impUid != null) {
+			
+			int result = service.orderCancel(orderNo);
+			return result;
 		}
-		return result;
+		
+		
+		return 0;
 	}
 	
 ~~~
@@ -218,7 +224,7 @@
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public int paymentCancel(String token, Order order) throws IOException {
+	public ImpToken paymentCancel(String token, Order order) throws IOException {
 		
 		// 주문 취소 정보를 담은 요청 전송
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -234,7 +240,7 @@
 			ImpToken impToken = restTemplate.postForObject("https://api.iamport.kr/payments/cancel", entity, ImpToken.class);
 			
 			System.out.println(impToken.toString());
-			return 1;
+			return impToken;
 				
 		} catch (Exception e) {
 			e.printStackTrace();
