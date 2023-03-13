@@ -45,7 +45,7 @@
 
 </br>
 
--  프로젝트 구조
+## 프로젝트 구조
 ![KakaoTalk_20230224_143033180](https://user-images.githubusercontent.com/101784680/224640463-00c055d7-eec6-41c3-8ab8-fe6911c39a25.png)
 
 	
