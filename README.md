@@ -237,10 +237,10 @@
 		
 		try {
 			HttpEntity<JSONObject> entity = new HttpEntity<>(body , headers);
-			ImpToken impToken = restTemplate.postForObject("https://api.iamport.kr/payments/cancel", entity, ImpToken.class);
+			ImpToken impUid = restTemplate.postForObject("https://api.iamport.kr/payments/cancel", entity, ImpToken.class);
 			
-			System.out.println(impToken.toString());
-			return impToken;
+			System.out.println(impUid.toString());
+			return impUid;
 				
 		} catch (Exception e) {
 			e.printStackTrace();
