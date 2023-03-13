@@ -14,7 +14,7 @@
   <br>
 
 
-## 개발 동기 & 기획 의도
+## :page_with_curl: 개발 동기 & 기획 의도
 
 최근 귀농, 숲세권 등 바쁜 현대 사회에서 벗어나 자연과 가까워지고싶은 욕구의 증가로<br> 
 작게는 집 베란다 화분에서부터 더 나아가 주말 농장, 텃밭 등을 찾는 수요가 늘고있습니다.<br><br>
@@ -31,7 +31,7 @@
 <br>
 <br>    <br>
 
-## 제작 기간 & 참여 인원 & 역할
+##  :mag: 제작 기간 & 참여 인원 & 역할
 - 제작 기간: 2022.12.12 ~ 2023.01.11
 - 6인 팀 프로젝트
 - 구현 기능 및 기여:
@@ -45,7 +45,7 @@
 
 </br>
 
-## 프로젝트 구조
+## :computer: 프로젝트 구조
 ![KakaoTalk_20230224_143033180](https://user-images.githubusercontent.com/101784680/224640463-00c055d7-eec6-41c3-8ab8-fe6911c39a25.png)
 
 	
@@ -73,7 +73,7 @@
 
 
 
-## 트러블 슈팅 & 성과
+## :chart_with_upwards_trend: 트러블 슈팅 & 성과
 [오라클 클라우드 배포 중 SQL 문제 발생](https://nanazzoo.github.io/posts/Oracle-Cloud-%ED%98%B8%EC%8A%A4%ED%8C%85-%EC%A4%91-%EC%98%88%EC%99%B8-%EB%B0%9C%EC%83%9D/)
 
 [RESTful API 형식으로 리팩토링 진행](https://nanazzoo.github.io/posts/Oracle-Cloud-%ED%98%B8%EC%8A%A4%ED%8C%85-%EC%A4%91-%EC%98%88%EC%99%B8-%EB%B0%9C%EC%83%9D/)
@@ -82,12 +82,12 @@
 
 
 
-## ERD 설계
+## :calendar: ERD 설계
 <img src="/FarmFarm ERD-min.png" />
 
 </br></br></br></br></br></br></br></br></br>
 
-## 핵심 기능
+## :pushpin: 핵심 기능
 
 
 이 서비스의 핵심 기능은 상품 결제 취소 기능입니다. 아임 포트 API를 이용하여 구현하였습니다.
