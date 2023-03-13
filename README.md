@@ -6,7 +6,7 @@
 <h3>내 손으로 키운 작물, 손쉽게 거래하세요.</h3>
 	팜팜 로고를 클릭하면 Demo 사이트로 이동합니다
 </div>
-  <br>
+  <br>  <br>
   
 
 
@@ -29,7 +29,7 @@
 농사에 필요한 물품을 사이트에서 직접 구매할 수 있으며 <br>
 커뮤니티를 통해 정보를 주고 받을 수 있는 **All in One 거래 중개 복합 플랫폼**입니다.
 <br>
-<br>    <br>
+<br>    <br>  <br>  <br>
 
 ##  :mag: 제작 기간 & 참여 인원 & 역할
 - 제작 기간: 2022.12.12 ~ 2023.01.11
@@ -43,7 +43,7 @@
 	- 웹소켓을 이용하여 실시간 상담 기능 구현
 	- 오라클 클라우드 환경에 프로젝트 배포
 
-</br>
+</br>  <br>  <br>  <br>
 
 ## :computer: 프로젝트 구조
 ![KakaoTalk_20230224_143033180](https://user-images.githubusercontent.com/101784680/224640463-00c055d7-eec6-41c3-8ab8-fe6911c39a25.png)
@@ -69,7 +69,7 @@
 
 </div>
 
-</br></br></br></br></br></br></br></br></br>
+</br></br></br></br></br></br></br>
 
 
 
@@ -85,7 +85,7 @@
 ## :calendar: ERD 설계
 <img src="/FarmFarm ERD-min.png" />
 
-</br></br></br></br></br></br></br></br></br>
+</br></br></br></br></br></br></br>
 
 ## :pushpin: 핵심 기능
 
