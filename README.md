@@ -46,10 +46,12 @@
 </br>
 
 -  프로젝트 구조
-<img src="/project.png" />
+![KakaoTalk_20230224_143033180](https://user-images.githubusercontent.com/101784680/224640463-00c055d7-eec6-41c3-8ab8-fe6911c39a25.png)
+
 	
 
-<div align="center">
+<div align="center">![Uploading KakaoTalk_20230224_143033180.png…]()
+
   
 ### **Back-end**
 <img src="https://img.shields.io/badge/Java11-007396?style=for-the-badge&logo=java&logoColor=white"> 
