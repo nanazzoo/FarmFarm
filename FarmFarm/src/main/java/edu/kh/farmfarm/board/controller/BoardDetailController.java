@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -42,7 +43,7 @@ public class BoardDetailController {
 	private BoardDetailService serivce;
 	
 	// 게시글 상세보기
-	@GetMapping("/board/{boardTypeNo}/{boardNo}")
+	@GetMapping("/boards/{boardTypeNo}/{boardNo}")
 	public String boardDetailPage(
 			@PathVariable("boardTypeNo") int boardTypeNo,
 			@PathVariable("boardNo") int boardNo,
@@ -141,16 +142,23 @@ public class BoardDetailController {
 	
 	
 	// 게시글 좋아요
-	@PostMapping("/boardLikeInsert")
+	@PostMapping("/boards/{boardNo}/{memberNo}/like")
 	@ResponseBody
 	public int boardLikeInsert(
-			@RequestParam Map<String, Object> likeMap) {
+			@PathVariable int boardNo,
+			@PathVariable int memberNo) {
+		
+		Map<String, Object> likeMap = new HashMap<String, Object>();
+		
+		likeMap.put("boardNo", boardNo);
+		likeMap.put("memberNo", memberNo);
+		
 		return serivce.boardLikeInsert(likeMap);
 	}
 	
 	
 	// 게시글 좋아요 취소
-	@DeleteMapping("/boardLike/{boardNo}/{memberNo}")
+	@DeleteMapping("/boards/{boardNo}/{memberNo}/like")
 	@ResponseBody
 	public int boardLikeDelete(
 			@PathVariable int boardNo,
@@ -195,7 +203,7 @@ public class BoardDetailController {
 //	}
 	
 	// 게시글 삭제 - 수정 후 코드
-	@DeleteMapping("/board/{boardTypeNo}/{boardNo}")
+	@PatchMapping("/boards/{boardTypeNo}/{boardNo}")
 	@ResponseBody
 	public int boardDelete(
 			@PathVariable("boardNo") int boardNo) {
@@ -225,7 +233,7 @@ public class BoardDetailController {
 //	}
 	
 	// 게시글 수정하기 페이지 이동 - 수정 후
-	@GetMapping("/board/{boardTypeNo}/{boardNo}/update")
+	@GetMapping("/boards/{boardTypeNo}/{boardNo}/edit")
 	public String boardUpdatePage(
 			@PathVariable("boardTypeNo") int boardTypeNo,
 			@PathVariable("boardNo") int boardNo,
@@ -253,7 +261,7 @@ public class BoardDetailController {
 	
 	
 	// 게시글 수정합니다
-	@PostMapping("/board/{boardTypeNo}/{boardNo}/update")
+	@PostMapping("/boards/{boardTypeNo}/{boardNo}/edit")
 	public String boardUpdate(
 			@PathVariable("boardTypeNo") int boardTypeNo,
 			@PathVariable("boardNo") int boardNo,
@@ -277,7 +285,7 @@ public class BoardDetailController {
 		String path = null;
 		
 		if(result>0) {
-			path = "/board/" + boardTypeNo + "/" + boardNo + "?cp=" + cp;
+			path = "/boards/" + boardTypeNo + "/" + boardNo + "?cp=" + cp;
 			message = "게시글이 수정되었습니다.";
 		}else {
 			path = referer;

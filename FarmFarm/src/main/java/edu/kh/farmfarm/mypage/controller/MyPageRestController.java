@@ -28,7 +28,7 @@ import edu.kh.farmfarm.mypage.model.service.MyPageService;
 import edu.kh.farmfarm.productDetail.model.vo.Review;
 
 @RestController
-public class myPageRestController {
+public class MyPageRestController {
 	
 	@Autowired
 	private MyPageService service;
@@ -38,7 +38,7 @@ public class myPageRestController {
 	 * @param cp
 	 * @return
 	 */
-	@GetMapping("/order/list")
+	@GetMapping("/orders/list")
 	public String selectOrderList(
 			@SessionAttribute("loginMember")Member loginMember,
 			@RequestParam(value="cp", required=false, defaultValue = "1") int cp
@@ -57,7 +57,7 @@ public class myPageRestController {
 	 * @param cp
 	 * @return
 	 */
-	@GetMapping("/reviews/{currentPage}")
+	@GetMapping("/reviews/list/{currentPage}")
 	public String selectReviewList(
 			@SessionAttribute("loginMember")Member loginMember,
 			@PathVariable(value="currentPage", required=false) Optional<Integer> currentPage
@@ -79,7 +79,7 @@ public class myPageRestController {
 	 * @param sortFl
 	 * @return
 	 */
-	@GetMapping("/board/list")
+	@GetMapping("/boards/list")
 	public String selectBoardList(
 			@SessionAttribute("loginMember")Member loginMember,
 			@RequestParam(value="cp", required=false, defaultValue = "1") int cp,
@@ -103,7 +103,7 @@ public class myPageRestController {
 	 * @param cp
 	 * @return
 	 */
-	@GetMapping("/comment/list")
+	@GetMapping("/comments/list")
 	public String selectCommentList(
 			@SessionAttribute("loginMember")Member loginMember,
 			@RequestParam(value="cp", required=false, defaultValue = "1") int cp
@@ -123,7 +123,7 @@ public class myPageRestController {
 	 * @param cp
 	 * @return
 	 */
-	@GetMapping("/wish/list")
+	@GetMapping("/wishes/list")
 	public String selectWishList(
 			@SessionAttribute("loginMember")Member loginMember,
 			@RequestParam(value="cp", required=false, defaultValue = "1") int cp
@@ -177,7 +177,7 @@ public class myPageRestController {
 	 * @param orderNo
 	 * @return
 	 */
-	@PatchMapping("/order/{orderNo}/confirm")
+	@PatchMapping("/orders/{orderNo}/confirm")
 	public int orderConfirm(@PathVariable("orderNo") int orderNo) {
 		
 		return service.orderConfirm(orderNo);
@@ -192,7 +192,7 @@ public class myPageRestController {
 	 * @return
 	 * @throws IOException
 	 */
-	@PostMapping("/review")
+	@PostMapping("/reviews")
 	public int writeReview(Review review, String reviewContent,
 			@SessionAttribute("loginMember") Member loginMember,
 			HttpServletRequest req,
@@ -218,7 +218,7 @@ public class myPageRestController {
 	 * @param productNo
 	 * @return
 	 */
-	@DeleteMapping("/wish/{productNo}")
+	@DeleteMapping("/wishes/{productNo}")
 	public int deleteWish(@SessionAttribute("loginMember") Member loginMember,
 			@PathVariable("productNo") int productNo) {
 		

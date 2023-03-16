@@ -11,7 +11,7 @@ import edu.kh.farmfarm.mypage.model.service.MyPageService;
 import edu.kh.farmfarm.mypage.model.vo.Order;
 
 @Controller
-public class myPageOrderController {
+public class MyPageOrderController {
 	
 	@Autowired
 	private MyPageService service;
@@ -22,7 +22,7 @@ public class myPageOrderController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("/return/{orderNo}")
+	@GetMapping("/returns/{orderNo}")
 	public String returnOrder(
 			@PathVariable("orderNo") int orderNo,
 			Model model

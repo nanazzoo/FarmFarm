@@ -53,6 +53,9 @@ public class OrderServiceImpl implements OrderService{
 	
 	private RestTemplate restTemplate = new RestTemplate();
 
+	/** 반품 하기
+	 *
+	 */
 	@Override
 	@Transactional
 	public int insertReturn(Return returnInfo, List<Product> productList) {
@@ -62,18 +65,13 @@ public class OrderServiceImpl implements OrderService{
 		
 		
 		List<Product> pList = new ArrayList<Product>(productList);
-//		
-//		
+	
 	
 		for(int i=0; i<pList.size(); i++) {
 			productList.get(i).setReturnNo(returnNo);
 			
-//			if(pList.get(i).getProductNo() == 0) {
-//				productList.remove(i);
-//			}
-			
 		}
-//		
+
 
 		if(returnNo > 0) {
 			returnNo = dao.insertReturnProduct(productList);
@@ -202,7 +200,7 @@ public class OrderServiceImpl implements OrderService{
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public int paymentCancel(String token, Order order) throws IOException {
+	public ImpToken paymentCancel(String token, Order order) throws IOException {
 		
 		// 주문 취소 정보를 담은 요청 전송
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -215,10 +213,10 @@ public class OrderServiceImpl implements OrderService{
 		
 		try {
 			HttpEntity<JSONObject> entity = new HttpEntity<>(body , headers);
-			ImpToken impToken = restTemplate.postForObject("https://api.iamport.kr/payments/cancel", entity, ImpToken.class);
+			ImpToken cancelInfo = restTemplate.postForObject("https://api.iamport.kr/payments/cancel", entity, ImpToken.class);
 			
-			System.out.println(impToken.toString());
-			return 1;
+			System.out.println(cancelInfo.toString());
+			return cancelInfo;
 				
 		} catch (Exception e) {
 			e.printStackTrace();
