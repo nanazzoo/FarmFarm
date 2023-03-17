@@ -78,6 +78,8 @@
 
 [RESTful API 형식으로 리팩토링 진행](https://nanazzoo.github.io/posts/RestfulAPI-%ED%98%95%EC%8B%9D%EC%9C%BC%EB%A1%9C-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81/)
 
+[Farmfarm 프로젝트 회고](https://nanazzoo.github.io/posts/%ED%8C%8C%EC%9D%B4%EB%84%90-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8(FarmFarm)-%ED%9A%8C%EA%B3%A0/)
+
 </br></br></br></br></br></br>
 
 
